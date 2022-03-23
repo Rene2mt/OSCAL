@@ -1,0 +1,143 @@
+name: Generate Model Resources
+on:
+  workflow_call:
+    inputs:
+      saxon_version:
+        description: 'the version of Saxon to use'
+        required: false
+        default: '10.6'
+        type: string
+      commit_resources:
+        description: 'commit the resources after generating them. Requires the access_token to be passed'
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      access_token:
+        description: 'the access token to use for commits'
+        required: false
+  workflow_dispatch:
+    branches:
+    - main
+    - develop
+    - "release-*"
+    inputs:
+      saxon_version:
+        description: 'the version of Saxon to use'
+        required: true
+        default: '10.6'
+        type: string
+      commit_resources:
+        description: 'commit the resources after generating them. Requires a PAT defined as secrets.COMMIT_TOKEN'
+        required: true
+        default: false
+        type: boolean
+jobs:
+  metaschema-artifacts:
+    name: Generate Metaschema-Based Model Resources
+    runs-on: ubuntu-latest
+    env:
+      CHECKOUT_PATH: git/content
+      CICD_PATH: build/ci-cd # relative to the CHECKOUT_PATH
+      SAXON_VERSION: ${{ github.event.inputs.saxon_version }}${{ inputs.saxon_version }}
+      NODE_ENV: production
+    steps:
+    # use this for builds triggered from the UI on protected branches
+    - name: Checkout Latest (using COMMIT_TOKEN)
+      if: github.event_name == 'workflow_dispatch' && github.event.inputs.commit_resources == true
+      uses: actions/checkout@v3
+      with:
+        path: ${{ env.CHECKOUT_PATH }}
+        token: ${{ secrets.COMMIT_TOKEN }}
+        submodules: recursive
+    # use this for builds triggered from other workflows on protected branches
+    - name: Checkout Latest (using access_token)
+      if: github.event_name == 'push' && inputs.commit_resources == true
+      uses: actions/checkout@v3
+      with:
+        path: ${{ env.CHECKOUT_PATH }}
+        token: ${{ secrets.access_token }}
+        submodules: recursive
+    # use this for overything else (i.e., pull requests) where publication is not needed
+    - name: Checkout Latest
+      if: ${{ inputs.commit_resources == false }}
+      uses: actions/checkout@v3
+      with:
+        path: ${{ env.CHECKOUT_PATH }}
+        submodules: recursive
+    # Setup runtime environment
+    # -------------------------
+    # Java JDK 11
+    - name: Set up JDK
+      if: steps.changed-files.outputs.any_modified
+      uses: actions/setup-java@v2
+      with:
+        java-version: 11
+        distribution: 'temurin'
+        cache: 'maven'
+    - name: Set up NodeJS
+      uses: actions/setup-node@v2
+      with:
+        node-version-file: '${{ env.CHECKOUT_PATH }}/build/.nvmrc'
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+    - name: Setup Dependencies
+      run: |
+        # NodeJS
+        cd "${CHECKOUT_PATH}/build"
+        npm install --loglevel verbose
+        echo "$PWD/node_modules/.bin/" >> $GITHUB_PATH
+        # Saxon
+        mvn org.apache.maven.plugins:maven-dependency-plugin:2.10:get -DartifactId=Saxon-HE -DgroupId=net.sf.saxon -Dversion=${SAXON_VERSION}
+        # Operating System packages
+        sudo rm -rf /var/lib/apt/lists/* && sudo apt-get update
+        sudo apt-get install libxml2-utils
+    # Build Artifacts
+    # ---------------
+    # job-validate-metaschema
+    - name: Validate Metaschemas
+      run: |
+        bash "${CICD_PATH}/validate-metaschema.sh" -w "${GITHUB_WORKSPACE}/${CHECKOUT_PATH}" --scratch-dir "${RUNNER_TEMP}"
+      working-directory: ${{ env.CHECKOUT_PATH }}
+    # job-generate-schema
+    - name: Generate Schemas
+      run: |
+        bash "${CICD_PATH}/generate-schema.sh" -w "${GITHUB_WORKSPACE}/${CHECKOUT_PATH}"
+      working-directory: ${{ env.CHECKOUT_PATH }}
+      continue-on-error: true
+    # job-generate-converters
+    - name: Generate Content Converters
+      run: |
+        bash "${CICD_PATH}/generate-content-converters.sh" -w "${GITHUB_WORKSPACE}/${CHECKOUT_PATH}"
+      working-directory: ${{ env.CHECKOUT_PATH }}
+      continue-on-error: true
+    # job-run-unittests
+    - name: Run Content Unit Tests
+      run: |
+        bash "${CICD_PATH}/run-unittests.sh" -w "${CHECKOUT_PATH}"
+      working-directory: ${{ env.CHECKOUT_PATH }}
+    - name: Zip Artifacts for Upload
+      run: |
+        zip ${{ runner.temp }}/metaschema-artifacts.zip -r xml/schema/*.xsd json/schema/*.json xml/convert/*.xsl json/convert/*.xsl
+      working-directory: ${{ env.CHECKOUT_PATH }}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: schemas-and-converters
+        path: |
+          ${{ runner.temp }}/metaschema-artifacts.zip
+        retention-days: 5
+    # Store Built Artifacts
+    # ---------------
+    - name: Publish Schemas and Converters
+      # only do this on master
+      if: github.event.inputs.commit_resources == true || inputs.commit_resources == true
+      uses: stefanzweifel/git-auto-commit-action@v4.9.2
+      with:
+        repository: ${{ env.CHECKOUT_PATH }}
+        file_pattern: xml json
+        # push_options: --force-with-lease
+        skip_dirty_check: false
+        commit_message: Publishing generated metaschema resources [ci skip]
+#          commit_user_name: OSCAL GitHub Actions Bot
+#          commit_user_email: oscal@nist.gov
+#          commit_author: OSCAL GitHub Actions Bot <oscal@nist.gov>

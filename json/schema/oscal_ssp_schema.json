@@ -1,6 +1,6 @@
 
   { "$schema" : "http://json-schema.org/draft-07/schema#",
-    "$id" : "http://csrc.nist.gov/ns/oscal/1.0.1/oscal-ssp-schema.json",
+    "$id" : "http://csrc.nist.gov/ns/oscal/1.0.2/oscal-ssp-schema.json",
     "$comment" : "OSCAL System Security Plan (SSP) Model: JSON Schema",
     "type" : "object",
     "definitions" : 
@@ -372,9 +372,7 @@
             "items" : 
             { "$ref" : "#assembly_oscal-ssp_diagram" } },
           "remarks" : 
-          { "title" : "remarks field",
-            "description" : "Commentary about the system's authorization boundary that enhances the diagram.",
-            "type" : "string" } },
+          { "$ref" : "#field_oscal-metadata_remarks" } },
         "required" : 
         [ "description" ],
         "additionalProperties" : false },
@@ -408,9 +406,7 @@
             "description" : "A brief caption to annotate the diagram.",
             "type" : "string" },
           "remarks" : 
-          { "title" : "remarks field",
-            "description" : "Commentary about the diagram that enhances it.",
-            "type" : "string" } },
+          { "$ref" : "#field_oscal-metadata_remarks" } },
         "required" : 
         [ "uuid" ],
         "additionalProperties" : false },
@@ -2094,6 +2090,12 @@
             { "title" : "Choice",
               "description" : "A value selection among several such options",
               "type" : "string" } } },
+        "additionalProperties" : false },
+      "oscal-ssp-oscal-catalog-common:include-all" : 
+      { "title" : "Include All",
+        "description" : "Include all controls from the imported catalog or profile resources.",
+        "$id" : "#assembly_oscal-catalog-common_include-all",
+        "type" : "object",
         "additionalProperties" : false } },
     "properties" : 
     { "system-security-plan" : 

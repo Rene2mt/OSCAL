@@ -1,6 +1,6 @@
 
   { "$schema" : "http://json-schema.org/draft-07/schema#",
-    "$id" : "http://csrc.nist.gov/ns/oscal/1.0/1.0.1/oscal-complete-schema.json",
+    "$id" : "http://csrc.nist.gov/ns/oscal/1.0/1.0.2/oscal-complete-schema.json",
     "$comment" : "OSCAL Unified Model of Models: JSON Schema",
     "type" : "object",
     "definitions" : 
@@ -322,6 +322,12 @@
             { "title" : "Choice",
               "description" : "A value selection among several such options",
               "type" : "string" } } },
+        "additionalProperties" : false },
+      "oscal-complete-oscal-catalog-common:include-all" : 
+      { "title" : "Include All",
+        "description" : "Include all controls from the imported catalog or profile resources.",
+        "$id" : "#assembly_oscal-catalog-common_include-all",
+        "type" : "object",
         "additionalProperties" : false },
       "oscal-complete-oscal-metadata:metadata" : 
       { "title" : "Publication metadata",
@@ -1023,7 +1029,7 @@
         "additionalProperties" : false },
       "oscal-complete-oscal-profile:import" : 
       { "title" : "Import resource",
-        "description" : "The import designates a catalog, profile, or other resource to be included (referenced and potentially modified) by this profile. The import also identifies which controls to select using the include-all, include-controls, and exclude-controls directives.",
+        "description" : "The import designates a catalog or profile to be included (referenced and potentially modified) by this profile. The import also identifies which controls to select using the include-all, include-controls, and exclude-controls directives.",
         "$id" : "#assembly_oscal-profile_import",
         "type" : "object",
         "properties" : 
@@ -1033,7 +1039,7 @@
             "type" : "string",
             "format" : "uri-reference" },
           "include-all" : 
-          { "$ref" : "#assembly_oscal-profile_include-all" },
+          { "$ref" : "#assembly_oscal-catalog-common_include-all" },
           "include-controls" : 
           { "type" : "array",
             "minItems" : 1,
@@ -1055,7 +1061,7 @@
         "properties" : 
         { "combine" : 
           { "title" : "Combination rule",
-            "description" : "A Combine element defines whether and how to combine multiple (competing) versions of the same control",
+            "description" : "A Combine element defines how to combine multiple (competing) versions of the same control.",
             "type" : "object",
             "properties" : 
             { "method" : 
@@ -1236,7 +1242,7 @@
               "ascending",
               "descending" ] },
           "include-all" : 
-          { "$ref" : "#assembly_oscal-profile_include-all" },
+          { "$ref" : "#assembly_oscal-catalog-common_include-all" },
           "include-controls" : 
           { "type" : "array",
             "minItems" : 1,
@@ -1247,12 +1253,6 @@
             "minItems" : 1,
             "items" : 
             { "$ref" : "#assembly_oscal-profile_select-control-by-id" } } },
-        "additionalProperties" : false },
-      "oscal-complete-oscal-profile:include-all" : 
-      { "title" : "Insert All",
-        "description" : "Insert all controls from the imported catalog or profile resources identified in the import directive.",
-        "$id" : "#assembly_oscal-profile_include-all",
-        "type" : "object",
         "additionalProperties" : false },
       "oscal-complete-oscal-profile:select-control-by-id" : 
       { "title" : "Call",
@@ -2412,9 +2412,7 @@
             "items" : 
             { "$ref" : "#assembly_oscal-ssp_diagram" } },
           "remarks" : 
-          { "title" : "remarks field",
-            "description" : "Commentary about the system's authorization boundary that enhances the diagram.",
-            "type" : "string" } },
+          { "$ref" : "#field_oscal-metadata_remarks" } },
         "required" : 
         [ "description" ],
         "additionalProperties" : false },
@@ -2448,9 +2446,7 @@
             "description" : "A brief caption to annotate the diagram.",
             "type" : "string" },
           "remarks" : 
-          { "title" : "remarks field",
-            "description" : "Commentary about the diagram that enhances it.",
-            "type" : "string" } },
+          { "$ref" : "#field_oscal-metadata_remarks" } },
         "required" : 
         [ "uuid" ],
         "additionalProperties" : false },
@@ -3036,7 +3032,7 @@
         "properties" : 
         { "href" : 
           { "title" : "System Security Plan Reference",
-            "description" : ">A resolvable URL reference to the system security plan for the system being assessed.",
+            "description" : "A resolvable URL reference to the system security plan for the system being assessed.",
             "type" : "string",
             "format" : "uri-reference" },
           "remarks" : 
@@ -3121,7 +3117,7 @@
         "properties" : 
         { "uuid" : 
           { "title" : "Assessment Activity Universally Unique Identifier",
-            "description" : "A machine-oriented, globally unique> identifier with cross-instance scope that can be used to reference this assessment activity elsewhere in this or other OSCAL instances. The locally defined UUID of the activity can be used to reference the data item locally or globally (e.g., in an imported OSCAL instance). This UUID should be assigned per-subject, which means it should be consistently used to identify the same subject across revisions of the document.",
+            "description" : "A machine-oriented, globally unique identifier with cross-instance scope that can be used to reference this assessment activity elsewhere in this or other OSCAL instances. The locally defined UUID of the activity can be used to reference the data item locally or globally (e.g., in an imported OSCAL instance). This UUID should be assigned per-subject, which means it should be consistently used to identify the same subject across revisions of the document.",
             "type" : "string",
             "pattern" : "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$" },
           "title" : 
@@ -3423,10 +3419,7 @@
                   "items" : 
                   { "$ref" : "#assembly_oscal-metadata_link" } },
                 "include-all" : 
-                { "title" : "All",
-                  "description" : "A key word to indicate all.",
-                  "type" : "object",
-                  "additionalProperties" : false },
+                { "$ref" : "#assembly_oscal-catalog-common_include-all" },
                 "include-controls" : 
                 { "type" : "array",
                   "minItems" : 1,
@@ -3463,10 +3456,7 @@
                   "items" : 
                   { "$ref" : "#assembly_oscal-metadata_link" } },
                 "include-all" : 
-                { "title" : "All",
-                  "description" : "A key word to indicate all.",
-                  "type" : "object",
-                  "additionalProperties" : false },
+                { "$ref" : "#assembly_oscal-catalog-common_include-all" },
                 "include-objectives" : 
                 { "type" : "array",
                   "minItems" : 1,
@@ -3594,10 +3584,7 @@
             "items" : 
             { "$ref" : "#assembly_oscal-metadata_link" } },
           "include-all" : 
-          { "title" : "All",
-            "description" : "A key word to indicate all.",
-            "type" : "object",
-            "additionalProperties" : false },
+          { "$ref" : "#assembly_oscal-catalog-common_include-all" },
           "include-subjects" : 
           { "type" : "array",
             "minItems" : 1,
@@ -3894,7 +3881,7 @@
               "properties" : 
               { "href" : 
                 { "title" : "Relevant Evidence Reference",
-                  "description" : ">A resolvable URL reference to relevant evidence.",
+                  "description" : "A resolvable URL reference to relevant evidence.",
                   "type" : "string",
                   "format" : "uri-reference" },
                 "description" : 
@@ -4105,10 +4092,7 @@
             "items" : 
             { "$ref" : "#assembly_oscal-metadata_link" } },
           "status" : 
-          { "title" : "Status",
-            "description" : "Describes the status of the associated risk.",
-            "type" : "string",
-            "pattern" : "^[_A-Za-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD][_A-Za-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\-\\.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$" },
+          { "$ref" : "#field_oscal-assessment-common_risk-status" },
           "origins" : 
           { "type" : "array",
             "minItems" : 1,
@@ -4606,7 +4590,7 @@
             "type" : "string",
             "format" : "date-time",
             "pattern" : "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$" },
-          "prop" : 
+          "props" : 
           { "type" : "array",
             "minItems" : 1,
             "items" : 
@@ -4847,7 +4831,7 @@
         "properties" : 
         { "href" : 
           { "title" : "Assessment Plan Reference",
-            "description" : ">A resolvable URL reference to the assessment plan governing the assessment activities.",
+            "description" : "A resolvable URL reference to the assessment plan governing the assessment activities.",
             "type" : "string",
             "format" : "uri-reference" },
           "remarks" : 

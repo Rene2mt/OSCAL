@@ -1,6 +1,6 @@
 
   { "$schema" : "http://json-schema.org/draft-07/schema#",
-    "$id" : "http://csrc.nist.gov/ns/oscal/1.0.1/oscal-component-definition-schema.json",
+    "$id" : "http://csrc.nist.gov/ns/oscal/1.0.2/oscal-component-definition-schema.json",
     "$comment" : "OSCAL Component Definition Model: JSON Schema",
     "type" : "object",
     "definitions" : 
@@ -1506,6 +1506,12 @@
             { "title" : "Choice",
               "description" : "A value selection among several such options",
               "type" : "string" } } },
+        "additionalProperties" : false },
+      "oscal-component-definition-oscal-catalog-common:include-all" : 
+      { "title" : "Include All",
+        "description" : "Include all controls from the imported catalog or profile resources.",
+        "$id" : "#assembly_oscal-catalog-common_include-all",
+        "type" : "object",
         "additionalProperties" : false } },
     "properties" : 
     { "component-definition" : 

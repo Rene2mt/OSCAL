@@ -1,6 +1,6 @@
 
   { "$schema" : "http://json-schema.org/draft-07/schema#",
-    "$id" : "http://csrc.nist.gov/ns/oscal/1.0.1/oscal-profile-schema.json",
+    "$id" : "http://csrc.nist.gov/ns/oscal/1.0.2/oscal-profile-schema.json",
     "$comment" : "OSCAL Profile Model: JSON Schema",
     "type" : "object",
     "definitions" : 
@@ -35,7 +35,7 @@
         "additionalProperties" : false },
       "oscal-profile-oscal-profile:import" : 
       { "title" : "Import resource",
-        "description" : "The import designates a catalog, profile, or other resource to be included (referenced and potentially modified) by this profile. The import also identifies which controls to select using the include-all, include-controls, and exclude-controls directives.",
+        "description" : "The import designates a catalog or profile to be included (referenced and potentially modified) by this profile. The import also identifies which controls to select using the include-all, include-controls, and exclude-controls directives.",
         "$id" : "#assembly_oscal-profile_import",
         "type" : "object",
         "properties" : 
@@ -45,7 +45,7 @@
             "type" : "string",
             "format" : "uri-reference" },
           "include-all" : 
-          { "$ref" : "#assembly_oscal-profile_include-all" },
+          { "$ref" : "#assembly_oscal-catalog-common_include-all" },
           "include-controls" : 
           { "type" : "array",
             "minItems" : 1,
@@ -67,7 +67,7 @@
         "properties" : 
         { "combine" : 
           { "title" : "Combination rule",
-            "description" : "A Combine element defines whether and how to combine multiple (competing) versions of the same control",
+            "description" : "A Combine element defines how to combine multiple (competing) versions of the same control.",
             "type" : "object",
             "properties" : 
             { "method" : 
@@ -248,7 +248,7 @@
               "ascending",
               "descending" ] },
           "include-all" : 
-          { "$ref" : "#assembly_oscal-profile_include-all" },
+          { "$ref" : "#assembly_oscal-catalog-common_include-all" },
           "include-controls" : 
           { "type" : "array",
             "minItems" : 1,
@@ -259,12 +259,6 @@
             "minItems" : 1,
             "items" : 
             { "$ref" : "#assembly_oscal-profile_select-control-by-id" } } },
-        "additionalProperties" : false },
-      "oscal-profile-oscal-profile:include-all" : 
-      { "title" : "Insert All",
-        "description" : "Insert all controls from the imported catalog or profile resources identified in the import directive.",
-        "$id" : "#assembly_oscal-profile_include-all",
-        "type" : "object",
         "additionalProperties" : false },
       "oscal-profile-oscal-profile:select-control-by-id" : 
       { "title" : "Call",
@@ -1256,6 +1250,12 @@
             { "title" : "Choice",
               "description" : "A value selection among several such options",
               "type" : "string" } } },
+        "additionalProperties" : false },
+      "oscal-profile-oscal-catalog-common:include-all" : 
+      { "title" : "Include All",
+        "description" : "Include all controls from the imported catalog or profile resources.",
+        "$id" : "#assembly_oscal-catalog-common_include-all",
+        "type" : "object",
         "additionalProperties" : false } },
     "properties" : 
     { "profile" : 
