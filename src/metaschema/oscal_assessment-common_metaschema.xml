@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <METASCHEMA xmlns="http://csrc.nist.gov/ns/oscal/metaschema/1.0" abstract="yes">
    <schema-name>OSCAL Assessment Layer Format -- Common Modules</schema-name>
-   <schema-version>1.0.2</schema-version>
+   <schema-version>1.0.3</schema-version>
    <short-name>oscal-assessment-common</short-name>
    <namespace>http://csrc.nist.gov/ns/oscal/1.0</namespace>
    <json-base-uri>http://csrc.nist.gov/ns/oscal</json-base-uri>
@@ -61,7 +61,7 @@
       <constraint>
          <allowed-values target="part[has-oscal-namespace('http://csrc.nist.gov/ns/oscal')]">
             <enum value="objective" deprecated="1.0.1">**(deprecated)** Use 'assessment-objective' instead.</enum>
-            <enum value="assessment" deprecated="1.0.1">**(deprecated)** Use 'assessment-method' instead</enum>
+            <enum value="assessment" deprecated="1.0.1">**(deprecated)** Use 'assessment-method' instead.</enum>
             <enum value="assessment-objective">The part defines an assessment objective.</enum>
             <enum value="assessment-method">The part defines an assessment method.</enum>
          </allowed-values>
@@ -579,13 +579,13 @@
          <field ref="remarks" in-xml="WITH_WRAPPER" min-occurs="0" max-occurs="1"/>
       </model>
    </define-assembly>
-   
+
    <define-flag name="subject-uuid" as-type="uuid" scope="local">
       <formal-name>Subject Universally Unique Identifier Reference</formal-name>
       <!-- Identifier Reference -->
       <description>A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to a component, inventory-item, location, party, user, or resource using it's UUID.</description>
    </define-flag>
-   
+
    <define-flag name="subject-type" as-type="token" scope="local">
       <formal-name>Subject Universally Unique Identifier Reference Type</formal-name>
       <description>Used to indicate the type of object pointed to by the <code>uuid-ref</code> within a subject.</description>
@@ -600,7 +600,7 @@
          </allowed-values>
       </constraint>
    </define-flag>
-   
+
    <define-assembly name="subject-reference" scope="local">
       <formal-name>Identifies the Subject</formal-name>
       <!-- Identifier Reference -->
@@ -763,7 +763,7 @@
                   <allowed-values allow-other="yes">
                   <enum value="pass">The target system or system component satisfied all the conditions.</enum>
                   <enum value="fail">The target system or system component did not satisfy all the conditions.</enum>
-                  <enum value="other">Some other event took place that is not a pass or a fail. </enum>
+                  <enum value="other">Some other event took place that is not a pass or a fail.</enum>
                </allowed-values>
             </constraint>
          <remarks>
@@ -877,11 +877,11 @@
             </model>
          </define-assembly>
          <define-field name="collected" as-type="dateTime-with-timezone" min-occurs="1" max-occurs="1">
-            <formal-name>collected field</formal-name>
+            <formal-name>Collected Field</formal-name>
             <description>Date/time stamp identifying when the finding information was collected.</description>
          </define-field>
          <define-field name="expires" as-type="dateTime-with-timezone" min-occurs="0" max-occurs="1">
-            <formal-name>expires field</formal-name>
+            <formal-name>Expires Field</formal-name>
             <description>Date/time identifying when the finding information is out-of-date and no longer valid. Typically used with continuous assessment scenarios.</description>
          </define-field>
          <field ref="remarks" in-xml="WITH_WRAPPER" min-occurs="0" max-occurs="1"/>
@@ -1015,7 +1015,8 @@
          <description>Specifies the source of the threat information.</description>
          <constraint>
             <allowed-values allow-other="yes">
-               <enum value="https://fedramp.gov">The value conforms to FedRAMP definitions.</enum>
+               <enum value="http://fedramp.gov" deprecated="1.0.3">**deprecated** The value conforms to FedRAMP definitions. This value has been deprecated; use <code>http://fedramp.gov/ns/oscal</code> instead.</enum>
+               <enum value="http://fedramp.gov/ns/oscal">The value conforms to FedRAMP definitions.</enum>
             </allowed-values>
          </constraint>
       </define-flag>
@@ -1287,7 +1288,8 @@
                <description>Specifies the naming system under which this risk metric is organized, which allows for the same names to be used in different systems controlled by different parties. This avoids the potential of a name clash.</description>
                <constraint>
                   <allowed-values allow-other="yes"><!-- Other values -->
-                     <enum value="http://fedramp.gov"/>
+                     <enum value="http://fedramp.gov" deprecated="1.0.3">**deprecated** The FedRAMP naming system. This has been deprecated; use <code>http://fedramp.gov/ns/oscal</code> instead.</enum>
+                     <enum value="http://fedramp.gov/ns/oscal">The FedRAMP naming system.</enum>
                      <enum value="http://csrc.nist.gov/ns/oscal"/>
                      <enum value="http://csrc.nist.gov/ns/oscal/unknown">The facet is from an unknown taxonomy. The meaning of the name is tool or organization specific.</enum>
                      <enum value="http://cve.mitre.org"/>
@@ -1320,13 +1322,13 @@
                   <enum value="adjusted">Indicates that residual risk remains after some adjustments have been made.</enum>
                </allowed-values>
                <!-- TODO: What about "vulnerability-id", "plugin-id"? Should this be added to FedRAMP? -->
-               <allowed-values target="(.)[@system='http://csrc.nist.gov/oscal']/@name" allow-other="yes">
+               <allowed-values target="(.)[@system='http://csrc.nist.gov/ns/oscal']/@name" allow-other="yes">
                   <enum value="likelihood">General likelihood rating.</enum>
                   <enum value="impact">General impact rating.</enum>
                   <enum value="risk">General risk rating.</enum>
                   <enum value="severity">General severity rating.</enum>
                </allowed-values>
-               <allowed-values target="(.)[@system='http://fedramp.gov']/@name" allow-other="yes">
+               <allowed-values target="(.)[@system=('http://fedramp.gov','http://fedramp.gov/ns/oscal')]/@name" allow-other="yes">
                   <enum value="likelihood">Likelihood as defined by FedRAMP. The <code>class</code> can be used to specify 'initial' and 'adjusted' risk states.</enum>
                   <enum value="impact">Impact as defined by FedRAMP. The <code>class</code> can be used to specify 'initial' and 'adjusted' risk states.</enum>
                   <enum value="risk">Risk as calculated according to FedRAMP. The <code>class</code> can be used to specify 'initial' and 'adjusted' risk states.</enum>
@@ -1335,20 +1337,20 @@
                   <enum value="cve-id">An identifier managed by the CVE program (see <a>https://cve.mitre.org/</a>).</enum>
                </allowed-values>
                <allowed-values target="(.)[@system='http://www.first.org/cvss/v2.0']/@name">
-                  <enum value="access-vector" >Base: Access Vector</enum>
-                  <enum value="access-complexity" >Base: Access Complexity</enum>
-                  <enum value="authentication" >Base: Authentication</enum>
-                  <enum value="confidentiality-impact"  >Base: Confidentiality Impact</enum>
-                  <enum value="integrity-impact"  >Base: Integrity Impact</enum>
-                  <enum value="availability-impact"  >Base: Availability Impact</enum>
-                  <enum value="exploitability"  >Temporal: Exploitability</enum>
-                  <enum value="remediation-level" >Temporal: Remediation Level</enum>
-                  <enum value="report-confidence" >Temporal: Report Confidence</enum>
+                  <enum value="access-vector">Base: Access Vector</enum>
+                  <enum value="access-complexity">Base: Access Complexity</enum>
+                  <enum value="authentication">Base: Authentication</enum>
+                  <enum value="confidentiality-impact">Base: Confidentiality Impact</enum>
+                  <enum value="integrity-impact">Base: Integrity Impact</enum>
+                  <enum value="availability-impact">Base: Availability Impact</enum>
+                  <enum value="exploitability">Temporal: Exploitability</enum>
+                  <enum value="remediation-level">Temporal: Remediation Level</enum>
+                  <enum value="report-confidence">Temporal: Report Confidence</enum>
                   <enum value="collateral-damage-potential">Environmental: Collateral Damage Potential</enum>
-                  <enum value="target-distribution" >Environmental: Target Distribution</enum>
-                  <enum value="confidentiality-requirement" >Environmental: Confidentiality Requirement</enum>
-                  <enum value="integrity-requirement" >Environmental: Integrity Requirement</enum>
-                  <enum value="availability-requirement" >Environmental: Availability Requirement</enum>
+                  <enum value="target-distribution">Environmental: Target Distribution</enum>
+                  <enum value="confidentiality-requirement">Environmental: Confidentiality Requirement</enum>
+                  <enum value="integrity-requirement">Environmental: Integrity Requirement</enum>
+                  <enum value="availability-requirement">Environmental: Availability Requirement</enum>
                </allowed-values>
                <allowed-values target="(.)[@system='http://www.first.org/cvss/v2.0' and @name='access-vector']/@value">
                   <enum value="local">Local</enum>
@@ -1407,28 +1409,28 @@
                </allowed-values>
 
                <allowed-values target="(.)[@system=('http://www.first.org/cvss/v3.0', 'http://www.first.org/cvss/v3.1')]/@name">
-                  <enum value="attack-vector" >Base: Attack Vector</enum>
-                  <enum value="access-complexity" >Base: Attack Complexity</enum>
-                  <enum value="privileges-required" >Base: Privileges Required</enum>
-                  <enum value="user-interaction" >Base: User Interaction</enum>
-                  <enum value="scope"  >Base: Scope</enum>
-                  <enum value="confidentiality-impact"  >Base: Confidentiality Impact</enum>
-                  <enum value="integrity-impact"  >Base: Integrity Impact</enum>
-                  <enum value="availability-impact"  >Base: Availability Impact</enum>
-                  <enum value="exploit-code-maturity"  >Temporal: Exploit Code Maturity</enum>
-                  <enum value="remediation-level" >Temporal: Remediation Level</enum>
-                  <enum value="report-confidence" >Temporal: Report Confidence</enum>
+                  <enum value="attack-vector">Base: Attack Vector</enum>
+                  <enum value="access-complexity">Base: Attack Complexity</enum>
+                  <enum value="privileges-required">Base: Privileges Required</enum>
+                  <enum value="user-interaction">Base: User Interaction</enum>
+                  <enum value="scope">Base: Scope</enum>
+                  <enum value="confidentiality-impact">Base: Confidentiality Impact</enum>
+                  <enum value="integrity-impact">Base: Integrity Impact</enum>
+                  <enum value="availability-impact">Base: Availability Impact</enum>
+                  <enum value="exploit-code-maturity">Temporal: Exploit Code Maturity</enum>
+                  <enum value="remediation-level">Temporal: Remediation Level</enum>
+                  <enum value="report-confidence">Temporal: Report Confidence</enum>
                   <enum value="modified-attack-vector">Environmental: Modified Attack Vector</enum>
                   <enum value="modified-attack-complexity">Environmental: Modified Attack Complexity</enum>
                   <enum value="modified-privileges-required">Environmental: Modified Privileges Required</enum>
                   <enum value="modified-user-interaction">Environmental: Modified User Interaction</enum>
-                  <enum value="modified-scope" >Environmental: Modified Scope</enum>
-                  <enum value="modified-confidentiality" >Environmental: Modified Confidentiality</enum>
-                  <enum value="modified-integrity" >Environmental: Modified Integrity</enum>
-                  <enum value="modified-availability" >Environmental: Modified Availability</enum>
-                  <enum value="confidentiality-requirement" >Environmental: Confidentiality Requirement Modifier</enum>
-                  <enum value="integrity-requirement" >Environmental: Integrity Requirement Modifier</enum>
-                  <enum value="availability-requirement" >Environmental: Availability Requirement Modifier</enum>
+                  <enum value="modified-scope">Environmental: Modified Scope</enum>
+                  <enum value="modified-confidentiality">Environmental: Modified Confidentiality</enum>
+                  <enum value="modified-integrity">Environmental: Modified Integrity</enum>
+                  <enum value="modified-availability">Environmental: Modified Availability</enum>
+                  <enum value="confidentiality-requirement">Environmental: Confidentiality Requirement Modifier</enum>
+                  <enum value="integrity-requirement">Environmental: Integrity Requirement Modifier</enum>
+                  <enum value="availability-requirement">Environmental: Availability Requirement Modifier</enum>
                </allowed-values>
                <allowed-values target="(.)[@system=('http://www.first.org/cvss/v3.0', 'http://www.first.org/cvss/v3.1') and @name='access-vector']/@value">
                   <enum value="network">Network</enum>
@@ -1525,7 +1527,7 @@
          <description>Identifies whether this is a recommendation, such as from an assessor or tool, or an actual plan accepted by the system owner.</description>
          <constraint>
             <allowed-values allow-other="yes">
-               <enum value="recommendation">Recommended Remediation</enum>
+               <enum value="recommendation">Recommended remediation.</enum>
                <enum value="planned">The actions intended to resolve the risk.</enum>
                <enum value="completed">This remediation activities were performed to address the risk.</enum>
             </allowed-values>
@@ -1692,7 +1694,7 @@
          <p>A <code>part</code> provides for logical partitioning of prose, and can be thought of as a grouping structure (e.g., section). A <code>part</code> can have child parts allowing for arbitrary nesting of prose content (e.g., statement hierarchy). A <code>part</code> can contain <code>prop</code> objects that allow for enriching prose text with structured name/value information.</p>
          <p>A <code>part</code> can be assigned an optional <code>id</code>, which allows for internal and external references to the textual concept contained within a <code>part</code>. A <code>id</code> provides a means for an OSCAL profile, or a higher layer OSCAL model to reference a specific part within a <code>catalog</code>. For example, an <code>id</code> can be used to reference or to make modifications to a control statement in a profile.</p>
          <p>Use of <code>part</code> and <code>prop</code> provides for a wide degree of extensibility within the OSCAL catalog model. The optional <code>ns</code> provides a means to qualify a part's <code>name</code>, allowing for organization-specific vocabularies to be defined with clear semantics. Any organization that extends OSCAL in this way should consistently assign a <code>ns</code> value that represents the organization, making a given namespace qualified <code>name</code> unique to that organization. This allows the combination of <code>ns</code> and <code>name</code> to always be unique and unambiguous, even when mixed with extensions from other organizations. Each organization is responsible for governance of their own extensions, and is strongly encouraged to publish their extensions as standards to their user community. If no <code>ns</code> is provided, the name is expected to be in the "OSCAL" namespace.</p>
-         <p>To ensure a <code>ns</code> is unique to an organization and naming conflicts are avoided, a URI containing a DNS or other globally defined organization name should be used. For example, if FedRAMP and DoD both extend OSCAL, FedRAMP will use the <code>ns</code> "https://fedramp.gov", while DoD will use the <code>ns</code> "https://defense.gov" for any organization specific <code>name</code>.</p>
+         <p>To ensure a <code>ns</code> is unique to an organization and naming conflicts are avoided, a URI containing a DNS or other globally defined organization name should be used. For example, if FedRAMP and DoD both extend OSCAL, FedRAMP will use the <code>ns</code> <code>http://fedramp.gov/ns/oscal</code>, while DoD might use the <code>ns</code> <code>https://defense.gov</code> for any organization specific <code>name</code>.</p>
          <p>Tools that process OSCAL content are not required to interpret unrecognized OSCAL extensions; however, OSCAL compliant tools should not modify or remove unrecognized extensions, unless there is a compelling reason to do so, such as data sensitivity.</p>
       </remarks>
    </define-assembly>

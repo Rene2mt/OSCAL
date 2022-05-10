@@ -14,7 +14,7 @@
 <METASCHEMA xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://csrc.nist.gov/ns/oscal/metaschema/1.0" xsi:schemaLocation="http://csrc.nist.gov/ns/oscal/metaschema/1.0 ../../build/metaschema/toolchains/xslt-M4/validate/metaschema.xsd">
   <schema-name>OSCAL Component Definition Model</schema-name>
-  <schema-version>1.0.2</schema-version>
+  <schema-version>1.0.3</schema-version>
   <short-name>oscal-component-definition</short-name>
   <namespace>http://csrc.nist.gov/ns/oscal/1.0</namespace>
   <json-base-uri>http://csrc.nist.gov/ns/oscal</json-base-uri>
@@ -343,7 +343,7 @@
       </is-unique>
     </constraint>
     <remarks>
-      <p>Use of <code>set-parameter</code> in this context, sets the parameter for all related controls referenced in an <code>implemented-requirement</code>. If the same parameter is also set in a specific <code>implemented-requirement</code>, then the new value will override this value.</p>
+      <p>Use of <code>set-parameter</code> in this context, sets the parameter for all controls referenced by any <code>implemented-requirement</code> contained in this context. Any <code>set-parameter</code> defined in a child context will override this value. If not overridden by a child, this value applies in the child context.</p>
     </remarks>
   </define-assembly>
   <define-assembly name="implemented-requirement" scope="local">
@@ -358,7 +358,7 @@
     <model>
       <define-field name="description" as-type="markup-multiline" min-occurs="1" in-xml="WITH_WRAPPER">
         <formal-name>Control Implementation Description</formal-name>
-        <description>A description of how the specified control is implemented for the containing component or capability.</description>
+        <description>A suggestion for how the specified control may be implemented if the containing component or capability is instantiated in a system security plan.</description>
       </define-field>
       <assembly ref="property" max-occurs="unbounded">
         <group-as name="props" in-json="ARRAY"/>
@@ -397,6 +397,10 @@
         </remarks>
       </is-unique>
     </constraint>
+    <remarks>
+      <p>Implemented requirements within a component or capability in a component definition provide a means to suggest possible control implementation details, which may be used by a different party when authoring a system security plan. Thus, these requirements defined in a component definition are only a suggestion of how to implement, which may be adopted wholesale, changed, or ignored by a person defining an information system implementation.</p>
+      <p>Use of <code>set-parameter</code> in this context, sets the parameter for the referenced control and any associated statements.</p>
+    </remarks>
   </define-assembly>
   <define-assembly name="statement" scope="local">
     <formal-name>Control Statement Implementation</formal-name>

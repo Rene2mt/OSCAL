@@ -40,8 +40,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                   <p class="formal-name">System Security Plan Universally Unique Identifier</p>
                </div>
                <div class="body">
-                  <p class="description"><span class="usa-tag">Description</span> A globally unique identifier for this catalog instance. This UUID should be changed
-                     when this document is revised.</p>
+                  <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this system security plan (SSP) elsewhere in
+                     <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>SSP</code> can be used to reference the data item locally or globally (e.g., in an imported
+                     OSCAL instance).This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                     of the document.</p>
                </div>
             </div>
          </details>
@@ -58,7 +60,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                <div class="body">
                   <p class="description"><span class="usa-tag">Description</span> Provides information about the publication and availability of the containing document.</p>
                   <details class="constraints" open="open">
-                     <summary>Constraints (12)</summary>
+                     <summary>Constraints (13)</summary>
                      <div class="constraint">
                         <p><span class="usa-tag">index</span>  for <code class="path">role</code> an index <code>index-metadata-role-ids</code> shall list values returned by targets <code>role</code> using keys constructed of key field(s) <code>@id</code></p>
                      </div>
@@ -69,7 +71,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                         <p><span class="usa-tag">is unique</span>  for <code class="path">prop</code>: any target value must be unique (i.e., occur only once)</p>
                      </div>
                      <div class="constraint">
-                        <p><span class="usa-tag">index</span>  for <code class="path">.//prop</code> an index <code>index-metadata-property-id</code> shall list values returned by targets <code>.//prop</code> using keys constructed of key field(s) <code>@id</code></p>
+                        <p><span class="usa-tag">index</span>  for <code class="path">.//prop</code> an index <code>index-metadata-property-uuid</code> shall list values returned by targets <code>.//prop</code> using keys constructed of key field(s) <code>@uuid</code></p>
                      </div>
                      <div class="constraint">
                         <p><span class="usa-tag">is unique</span>  for <code class="path">link</code>: any target value must be unique (i.e., occur only once)</p>
@@ -94,11 +96,24 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                         <p>The value <b>may be locally defined</b>, or one of the following:</p>
                         <ul>
                            
-                           <li><strong>prepared-by</strong>: Indicates the organization that created this content.</li>
+                           <li><strong>creator</strong>: Indicates the organization that created this content.</li>
+                           
+                           <li><strong>prepared-by</strong>: Indicates the organization that prepared this content.</li>
                            
                            <li><strong>prepared-for</strong>: Indicates the organization for which this content was created.</li>
                            
                            <li><strong>content-approver</strong>: Indicates the organization responsible for all content represented in the "document".</li>
+                           
+                           <li><strong>contact</strong>: Indicates the organization to contact for questions or support related to this content.</li>
+                           </ul>
+                     </div>
+                     <div class="constraint">
+                        <p><span class="usa-tag">allowed value</span>  for <code class="path">prop[has-oscal-namespace('http://csrc.nist.gov/ns/oscal')]/@name</code></p>
+                        <p>The value <b>must</b> be one of the following:</p>
+                        <ul>
+                           
+                           <li><strong>keywords</strong>: The value identifies a comma-seperated listing of keywords associated with this
+                              content. These keywords may be used as search terms for indexing and other applications.</li>
                            </ul>
                      </div>
                      <div class="constraint">
@@ -273,10 +288,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                        </details>
                                     </div>
                                     <details class="constraints" open="open">
-                                       <summary>Constraints (2)</summary>
-                                       <div class="constraint">
-                                          <p><span class="usa-tag">has cardinality</span>  for <code class="path">published|last-modified|version|link[@rel='canonical']</code> the cardinality of  <code>published|last-modified|version|link[@rel='canonical']</code> is constrained: <b>1</b>; maximum <b>unbounded</b>.</p>
-                                       </div>
+                                       <summary>Constraint (1)</summary>
                                        <div class="constraint">
                                           <p><span class="usa-tag">allowed values</span>  for <code class="path">link/@rel</code></p>
                                           <p>The value <b>may be locally defined</b>, or one of the following:</p>
@@ -370,7 +382,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                           <div class="instance-header">
                                              <h5 id="/system-security-plan/metadata/revisions/revision/version" class="toc5 name">version</h5>
                                              <p class="type" id="/system-security-plan/metadata/revisions/revision/version/_VALUE"><a href="/reference/datatypes/#string">string</a></p>
-                                             <p class="occurrence">[0 or 1]</p>
+                                             <p class="occurrence">[1]</p>
                                              <div class="crosslink"><a class="usa-button" href="../json-reference/#/system-security-plan/metadata/revisions/version">Switch to JSON</a></div>
                                              <p class="formal-name">Document Version</p>
                                           </div>
@@ -481,8 +493,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -600,13 +611,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -742,10 +753,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            <p class="formal-name">Document Identifier</p>
                         </div>
                         <div class="body">
-                           <p class="description"><span class="usa-tag">Description</span> A document identifier qualified by an identifier <code>scheme</code>. A document identifier provides a globally unique identifier for a group of documents
-                              that are to be treated as different versions of the same document. If this element
-                              does not appear, or if the value of this element is empty, the value of "document-id"
-                              is equal to the value of the "uuid" flag of the top-level root element.</p>
+                           <p class="description"><span class="usa-tag">Description</span> A document identifier qualified by an identifier <code>scheme</code>. A document identifier provides a <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with a <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that is used for a group of documents that are to be treated as different versions
+                              of the same document. If this element does not appear, or if the value of this element
+                              is empty, the value of "document-id" is equal to the value of the "uuid" flag of the
+                              top-level root element.</p>
                            <div class="remarks-group usa-prose">
                               <details open="open">
                                  <summary class="subhead">Remarks</summary>
@@ -778,7 +789,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                           <p>The value <b>may be locally defined</b>, or the following:</p>
                                           <ul>
                                              
-                                             <li><strong>https://www.doi.org/</strong>: A Digital Object Identifier (DOI); use is preferred, since this allows for retrieval
+                                             <li><strong>http://www.doi.org/</strong>: A Digital Object Identifier (DOI); use is preferred, since this allows for retrieval
                                                 of a full bibliographic record.</li>
                                              </ul>
                                        </div>
@@ -854,8 +865,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Property Universally Unique Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                       document. A UUID should be consistently used for a given location across revisions
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                        of the document.</p>
                                  </div>
                               </div>
@@ -973,13 +983,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            <details class="constraints" open="open">
                               <summary>Constraints (3)</summary>
                               <div class="constraint">
-                                 <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                 <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                 <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                 <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                               </div>
                            </details>
                            <details class="properties attributes" open="open">
@@ -1091,6 +1101,11 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  <div class="remarks">
                                     <p>Permissible values to be determined closer to the application (e.g. by a receiving
                                        authority).</p>
+                                    <p>OSCAL has defined a set of standardized roles for consistent use in OSCAL documents.
+                                       This allows tools consuming OSCAL content to infer specific semantics when these roles
+                                       are used. These roles are documented in the specific contexts of their use (e.g.,
+                                       responsible-party, responsible-role). When using such a role, it is necessary to define
+                                       these roles in this list, which will then allow such a role to be referenced.</p>
                                  </div>
                               </details>
                            </div>
@@ -1105,21 +1120,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Role Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A unique identifier for a specific role instance. This identifier's uniqueness is
-                                       document scoped and is intended to be consistent for the same role across minor revisions
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a>, <a href="/concepts/identifier-use/#locally-unique">locally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined role elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. When referenced from another OSCAL instance, the locally defined <em>ID</em> of the <code>Role</code> from the imported OSCAL instance must be referenced in the context of the containing
+                                       resource (e.g., import, import-component-definition, import-profile, import-ssp or
+                                       import-ap). This ID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                        of the document.</p>
-                                    <div class="remarks-group usa-prose">
-                                       <details open="open">
-                                          <summary class="subhead">Remarks</summary>
-                                          <div class="remarks">
-                                             <p>OSCAL has defined a set of standardized roles for consistent use in OSCAL documents.
-                                                This allows tools consuming OSCAL content to infer specific semantics when these roles
-                                                are used. These roles are documented in the specific contexts of their use (e.g.,
-                                                responsible-party, responsible-role). When using such a role, it is necessary to define
-                                                these roles in this list, which will then allow such a role to be referenced.</p>
-                                          </div>
-                                       </details>
-                                    </div>
                                  </div>
                               </div>
                            </details>
@@ -1240,8 +1244,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -1359,13 +1362,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -1514,8 +1517,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  <p>The value <b>may be locally defined</b>, or the following:</p>
                                  <ul>
                                     
-                                    <li><strong>data-center</strong>: A location that contains computing assets. A class can be used to indicate a subclass
-                                       of data-center.</li>
+                                    <li><strong>data-center</strong>: A location that contains computing assets. A class can be used to indicate the sub-type
+                                       of data-center as primary or alternate.</li>
                                     </ul>
                               </div>
                               <div class="constraint">
@@ -1540,9 +1543,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Location Universally Unique Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this defined location elsewhere
-                                       in an OSCAL document. A UUID should be consistently used for a given location across
-                                       revisions of the document.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined location elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>location</code> can be used to reference the data item locally or globally (e.g., from an importing
+                                       OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                       of the document.</p>
                                  </div>
                               </div>
                            </details>
@@ -1670,7 +1673,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraint (1)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>: a target (value) must match the regular expression '[A-Z](2)'.</p>
+                                                   <p><span class="usa-tag">matches</span>: a target (value) must match the regular expression '[A-Z]{2}'.</p>
                                                 </div>
                                              </details>
                                           </div>
@@ -1827,8 +1830,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -1946,13 +1948,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -2112,9 +2114,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Party Universally Unique Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this defined location elsewhere
-                                       in an OSCAL document. A UUID should be consistently used for a given party across
-                                       revisions of the document.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined party elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>party</code> can be used to reference the data item locally or globally (e.g., from an importing
+                                       OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                       of the document.</p>
                                  </div>
                               </div>
                               <div class="model-entry definition assembly">
@@ -2200,7 +2202,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                    <p>The value <b>may be locally defined</b>, or the following:</p>
                                                    <ul>
                                                       
-                                                      <li><strong>https://orcid.org/</strong>: The identifier is Open Researcher and Contributor ID (ORCID).</li>
+                                                      <li><strong>http://orcid.org/</strong>: The identifier is Open Researcher and Contributor ID (ORCID).</li>
                                                       </ul>
                                                 </div>
                                              </details>
@@ -2275,8 +2277,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -2394,13 +2395,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -2669,7 +2670,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                 <details class="constraints" open="open">
                                                    <summary>Constraint (1)</summary>
                                                    <div class="constraint">
-                                                      <p><span class="usa-tag">matches</span>: a target (value) must match the regular expression '[A-Z](2)'.</p>
+                                                      <p><span class="usa-tag">matches</span>: a target (value) must match the regular expression '[A-Z]{2}'.</p>
                                                    </div>
                                                 </details>
                                              </div>
@@ -2686,11 +2687,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                        <p class="formal-name">Location Reference</p>
                                     </div>
                                     <div class="body">
-                                       <p class="description"><span class="usa-tag">Description</span> References a <code>location</code> defined in <code>metadata</code>. </p>
+                                       <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to a <code>location</code> defined in the <code>metadata</code> section of this or another OSCAL instance. The <em>UUID</em> of the <code>location</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                          globally (e.g., in an imported OSCAL instance). </p>
+                                       <div class="remarks-group usa-prose">
+                                          <details open="open">
+                                             <summary class="subhead">Remarks</summary>
+                                             <div class="remarks">
+                                                <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                             </div>
+                                          </details>
+                                       </div>
                                        <details class="constraints" open="open">
                                           <summary>Constraint (1)</summary>
                                           <div class="constraint">
-                                             <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-location-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                             <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-location-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                           </div>
                                        </details>
                                     </div>
@@ -2705,20 +2715,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Organizational Affiliation</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> Identifies that the party object is a member of the organization associated with
-                                       the provided UUID.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> (<code>person</code> or <code>organization</code>) that this subject is associated with. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                       globally (e.g., in an imported OSCAL instance). </p>
                                     <div class="remarks-group usa-prose">
                                        <details open="open">
                                           <summary class="subhead">Remarks</summary>
                                           <div class="remarks">
-                                             <p>Parties of both the <code>person</code> or <code>organization</code> type can be associated with an organization using the <code>member-of-organization</code>. </p>
+                                             <p>Parties of both the <code>person</code> or <code>organization</code> type can be associated with an organization using the <code>member-of-organization</code>.</p>
                                           </div>
                                        </details>
                                     </div>
                                     <details class="constraints" open="open">
                                        <summary>Constraint (1)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-organizations-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-organizations-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                        </div>
                                     </details>
                                  </div>
@@ -2768,7 +2778,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-role-id</code> using a key constructed of key field(s) <code>@role-id</code></p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">index has key</span>  for <code class="path">party-uuid</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                 <p><span class="usa-tag">index has key</span>  for <code class="path">party-uuid</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                               </div>
                            </details>
                            <details class="properties attributes" open="open">
@@ -2782,7 +2792,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Responsible Role</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> The role that the party is responsible for.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> served by the user.</p>
                                  </div>
                               </div>
                            </details>
@@ -2797,10 +2807,14 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Party Reference</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                       globally (e.g., in an imported OSCAL instance). </p>
                                     <div class="remarks-group usa-prose">
                                        <details open="open">
                                           <summary class="subhead">Remarks</summary>
+                                          <div class="remarks">
+                                             <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                          </div>
                                           <div class="remarks">
                                              <p>Specifies one or more parties that are responsible for performing the associated <code>role</code>. </p>
                                           </div>
@@ -2809,7 +2823,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraint (1)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                        </div>
                                     </details>
                                  </div>
@@ -2880,8 +2894,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -2999,13 +3012,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -3178,7 +3191,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            <p class="formal-name">Profile Reference</p>
                         </div>
                         <div class="body">
-                           <p class="description"><span class="usa-tag">Description</span> A resolvable URL reference to the profile to use as the system's control baseline.</p>
+                           <p class="description"><span class="usa-tag">Description</span> A resolvable URL reference to the profile or catalog to use as the system's control
+                              baseline.</p>
                            <div class="remarks-group usa-prose">
                               <details open="open">
                                  <summary class="subhead">Remarks</summary>
@@ -3186,10 +3200,22 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p>The value of the <code>href</code> can be an internet resource, or a local reference using a fragment e.g. #fragment
                                        that points to a <code>back-matter</code> <code>resource</code> in the same document.</p>
                                     <p>If a local reference using a fragment is used, this will be indicated by a fragment
-                                       "#" followed by an identifier which references an identified <code>resource</code> in the document's <code>back-matter</code> or another object that is within the scope of the containing OSCAL document.</p>
-                                    <p>If an internet resource is used, the <code>href</code> value will be an absolute or relative URI pointing to the location of the referenced
+                                       "#" followed by an identifier which references an identified <code>resource</code> in the document's <code>back-matter</code> or another object that is within the scope of the containing OSCAL document. The
+                                       identified resource will be used instead as the target resource.</p>
+                                    <p>If an internet resource is used, the <code>href</code> value will be an absolute or relative URI pointing to the location of the target
                                        resource. A relative URI will be resolved relative to the location of the document
                                        containing the link.</p>
+                                    <p>If the resource is an OSCAL profile, it is expected that a tool will resolve the profile
+                                       according to the OSCAL [profile resolution specification](https://pages.nist.gov/OSCAL/concepts/processing/profile-resolution/)
+                                       to produce a resolved profile for use when processing the containing system security
+                                       plan. This allows a system security plan processor to use the baseline as a catalog
+                                       of controls.</p>
+                                    <p>While it is possible to reference a previously resolved OSCAL profile as a catalog,
+                                       this practice is discouraged since the unresolved form of the profile communicates
+                                       more information about selections and changes to the underlying catalog. Furthermore,
+                                       the underlying catalog can be maintained separately from the profile, which also has
+                                       maintenance advantages for distinct maintainers, ensuring that the best available
+                                       information is produced through profile resolution.</p>
                                  </div>
                               </details>
                            </div>
@@ -3255,7 +3281,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            </ul>
                      </div>
                      <div class="constraint">
-                        <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name=('identity-assurance-level','authenticator-assurance-level','federation-assurance-level')]/value()</code></p>
+                        <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name=('identity-assurance-level','authenticator-assurance-level','federation-assurance-level')]/@value</code></p>
                         <p>The value <b>must</b> be one of the following:</p>
                         <ul>
                            
@@ -3270,7 +3296,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            </ul>
                      </div>
                      <div class="constraint">
-                        <p><span class="usa-tag">allowed values</span>  for <code class="path">property/@name</code></p>
+                        <p><span class="usa-tag">allowed values</span>  for <code class="path">prop/@name</code></p>
                         <p>The value <b>may be locally defined</b>, or one of the following:</p>
                         <ul>
                            
@@ -3281,7 +3307,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            </ul>
                      </div>
                      <div class="constraint">
-                        <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name='cloud-deployment-model']/value()</code></p>
+                        <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name='cloud-deployment-model']/@value</code></p>
                         <p>The value <b>must</b> be one of the following:</p>
                         <ul>
                            
@@ -3296,7 +3322,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                               </li>
                            
                            
-                           <li><strong>government-only-cloud</strong>: TODO: define</li>
+                           <li><strong>government-only-cloud</strong>: A specific type of community-cloud for use only by government services.</li>
                            
                            <li><strong>other</strong>: Any other type of cloud deployment model that is exclusive to the other choices.</li>
                            The hybrid cloud deployment model, as defined by The NIST Definition of Cloud Computing,
@@ -3304,7 +3330,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            </ul>
                      </div>
                      <div class="constraint">
-                        <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name='cloud-service-model']/value()</code></p>
+                        <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name='cloud-service-model']/@value</code></p>
                         <p>The value <b>must</b> be one of the following:</p>
                         <ul>
                            
@@ -3363,7 +3389,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            <p class="formal-name">System Identification</p>
                         </div>
                         <div class="body">
-                           <p class="description"><span class="usa-tag">Description</span> A unique identifier for the system described by this system security plan.</p>
+                           <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this system identification property elsewhere
+                              in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. When referencing an externally defined <code>system identification</code>, the <code>system identification</code> must be used in the context of the external / imported OSCAL instance (e.g., uri-reference).
+                              This string should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same system across revisions
+                              of the document.</p>
                            <details class="properties attributes" open="open">
                               <summary>Attribute (1)</summary>
                               <div class="model-entry definition field">
@@ -3375,7 +3404,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Identification System Type</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> Identifies the identification system from which the provided identifier was assigned.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> Identifies the identification system from which the provided identifier was assigned.
+                                       </p>
                                     <details class="constraints" open="open">
                                        <summary>Constraint (1)</summary>
                                        <div class="constraint">
@@ -3383,9 +3413,15 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                           <p>The value <b>may be locally defined</b>, or one of the following:</p>
                                           <ul>
                                              
-                                             <li><strong>https://fedramp.gov</strong>: The identifier was assigned by FedRAMP.</li>
+                                             <li><strong>https://fedramp.gov</strong>: **deprecated** The identifier was assigned by FedRAMP. This has been deprecated;
+                                                use http://fedramp.gov/ns/oscal instead.</li>
                                              
-                                             <li><strong>https://ietf.org/rfc/rfc4122</strong>: A Universally Unique Identifier (UUID) as defined by RFC4122.</li>
+                                             <li><strong>http://fedramp.gov/ns/oscal</strong>: The identifier was assigned by FedRAMP.</li>
+                                             
+                                             <li><strong>https://ietf.org/rfc/rfc4122</strong>: **deprecated** A Universally Unique Identifier (UUID) as defined by RFC4122. This
+                                                value has been deprecated; use http://ietf.org/rfc/rfc4122 instead.</li>
+                                             
+                                             <li><strong>http://ietf.org/rfc/rfc4122</strong>: A Universally Unique Identifier (UUID) as defined by RFC4122.</li>
                                              </ul>
                                        </div>
                                     </details>
@@ -3510,8 +3546,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Property Universally Unique Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                       document. A UUID should be consistently used for a given location across revisions
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                        of the document.</p>
                                  </div>
                               </div>
@@ -3629,13 +3664,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            <details class="constraints" open="open">
                               <summary>Constraints (3)</summary>
                               <div class="constraint">
-                                 <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                 <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                 <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                 <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                               </div>
                            </details>
                            <details class="properties attributes" open="open">
@@ -3786,7 +3821,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     </ul>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name='privacy-designation']/value()</code></p>
+                                 <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name='privacy-designation']/@value</code></p>
                                  <p>The value <b>must</b> be one of the following:</p>
                                  <ul>
                                     
@@ -3807,13 +3842,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='privacy-impact-assessment']/@href[starts-with(.,'#')]</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">index has key</span>  for <code class="path">link[@rel='privacy-impact-assessment' and [starts-with(@href,'#')]]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                 <p><span class="usa-tag">index has key</span>  for <code class="path">link[@rel='privacy-impact-assessment' and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                               </div>
                               <div class="constraint">
                                  <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='privacy-impact-assessment']/@href[not(starts-with(.,'#'))]</code>: the target value must match the lexical form of the 'uri' data type.</p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">allowed values</span>  for <code class="path">security-sensitivity-level|security-impact-level/(security-objective-confidentiality|security-objective-integrity|security-objective-availability)|system-information/information-type/(confidentiality-impact|integrity-impact|availability-impact)/(base|selected}</code></p>
+                                 <p><span class="usa-tag">allowed values</span>  for <code class="path">information-type/(confidentiality-impact|integrity-impact|availability-impact)/(base|selected)</code></p>
                                  <p>The value <b>must</b> be one of the following:</p>
                                  <ul>
                                     
@@ -3898,8 +3933,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -4017,13 +4051,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -4141,9 +4175,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Information Type Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this information type
-                                                entry elsewhere in an OSCAL document. A UUID should be consistently used for a given
-                                                resource across revisions of the document.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this information type elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>information type</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                of the document.</p>
                                           </div>
                                        </div>
                                     </details>
@@ -4216,9 +4250,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                             <p>The value <b>may be locally defined</b>, or the following:</p>
                                                             <ul>
                                                                
-                                                               <li><strong>https://doi.org/10.6028/NIST.SP.800-60v2r1</strong>: Based on the section identifiers in NIST Special Publication 800-60 Volume II Revision
-                                                                  1.
-                                                                  </li>
+                                                               <li><strong>http://doi.org/10.6028/NIST.SP.800-60v2r1</strong>: Based on the section identifiers in NIST Special Publication 800-60 Volume II Revision
+                                                                  1.</li>
                                                                </ul>
                                                          </div>
                                                       </details>
@@ -4236,7 +4269,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Information Type Systematized Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> An identifier qualified by the given identification <code>system</code> used, such as NIST SP 800-60.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier qualified by the given identification <code>system</code> used, such as NIST SP 800-60. This identifier has <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope and can be used to reference this system elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. This id should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                         of the document.</p>
                                                    </div>
                                                 </div>
                                              </details>
@@ -4308,8 +4342,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -4427,13 +4460,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -4608,8 +4641,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Property Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                  document. A UUID should be consistently used for a given location across revisions
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                   of the document.</p>
                                                             </div>
                                                          </div>
@@ -4727,13 +4759,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraints (3)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                            <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                          </div>
                                                       </details>
                                                       <details class="properties attributes" open="open">
@@ -4962,8 +4994,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Property Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                  document. A UUID should be consistently used for a given location across revisions
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                   of the document.</p>
                                                             </div>
                                                          </div>
@@ -5081,13 +5112,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraints (3)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                            <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                          </div>
                                                       </details>
                                                       <details class="properties attributes" open="open">
@@ -5316,8 +5347,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Property Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                  document. A UUID should be consistently used for a given location across revisions
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                   of the document.</p>
                                                             </div>
                                                          </div>
@@ -5435,13 +5465,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraints (3)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                            <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                          </div>
                                                       </details>
                                                       <details class="properties attributes" open="open">
@@ -5844,8 +5874,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -5963,13 +5992,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -6098,10 +6127,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              </ul>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='diagramn']/@href[starts-with(.,'#')]</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='diagram']/@href[starts-with(.,'#')]</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>  for <code class="path">link[@rel='diagram' and [starts-with(@href,'#')]]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">link[@rel='diagram' and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
                                           <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='diagram']/@href[not(starts-with(.,'#'))]</code>: the target value must match the lexical form of the 'uri' data type.</p>
@@ -6118,7 +6147,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Diagram ID</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> The identifier for this diagram.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this diagram elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>diagram</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                of the document.</p>
                                           </div>
                                        </div>
                                     </details>
@@ -6224,8 +6255,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -6343,13 +6373,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -6463,13 +6493,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="type"><a href="/reference/datatypes/#markup-multiline">markup-multiline</a></p>
                                              <p class="occurrence">[0 or 1]</p>
                                              <div class="crosslink"><a class="usa-button" href="../json-reference/#/system-security-plan/system-characteristics/authorization-boundary/diagrams/remarks">Switch to JSON</a></div>
-                                             <p class="formal-name">remarks field</p>
+                                             <p class="formal-name">Remarks</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> Commentary about the diagram that enhances it.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> Additional commentary on the containing object.</p>
                                              <details class="properties elements" open="open">
                                                 <summary>Element (0+)</summary>
-                                                <div class="model-entry definition assembly">
+                                                <div class="model-entry definition field">
                                                    <div class="instance-header">
                                                       <h5 id="/system-security-plan/system-characteristics/authorization-boundary/diagram/remarks/_VALUE" class="toc5 name">(unwrapped)</h5>
                                                       <p class="type"><a href="/reference/datatypes/#markup-multiline">markup-multiline</a></p>
@@ -6491,13 +6521,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="type"><a href="/reference/datatypes/#markup-multiline">markup-multiline</a></p>
                                     <p class="occurrence">[0 or 1]</p>
                                     <div class="crosslink"><a class="usa-button" href="../json-reference/#/system-security-plan/system-characteristics/authorization-boundary/remarks">Switch to JSON</a></div>
-                                    <p class="formal-name">remarks field</p>
+                                    <p class="formal-name">Remarks</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> Commentary about the system's authorization boundary that enhances the diagram.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> Additional commentary on the containing object.</p>
                                     <details class="properties elements" open="open">
                                        <summary>Element (0+)</summary>
-                                       <div class="model-entry definition assembly">
+                                       <div class="model-entry definition field">
                                           <div class="instance-header">
                                              <h4 id="/system-security-plan/system-characteristics/authorization-boundary/remarks/_VALUE" class="toc4 name">(unwrapped)</h4>
                                              <p class="type"><a href="/reference/datatypes/#markup-multiline">markup-multiline</a></p>
@@ -6623,8 +6653,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -6742,13 +6771,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -6874,10 +6903,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              </ul>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='diagramn']/@href[starts-with(.,'#')]</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='diagram']/@href[starts-with(.,'#')]</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>  for <code class="path">link[@rel='diagram' and [starts-with(@href,'#')]]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">link[@rel='diagram' and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
                                           <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='diagram']/@href[not(starts-with(.,'#'))]</code>: the target value must match the lexical form of the 'uri' data type.</p>
@@ -6894,7 +6923,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Diagram ID</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> The identifier for this diagram.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this diagram elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>diagram</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                of the document.</p>
                                           </div>
                                        </div>
                                     </details>
@@ -7000,8 +7031,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -7119,13 +7149,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -7239,13 +7269,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="type"><a href="/reference/datatypes/#markup-multiline">markup-multiline</a></p>
                                              <p class="occurrence">[0 or 1]</p>
                                              <div class="crosslink"><a class="usa-button" href="../json-reference/#/system-security-plan/system-characteristics/network-architecture/diagrams/remarks">Switch to JSON</a></div>
-                                             <p class="formal-name">remarks field</p>
+                                             <p class="formal-name">Remarks</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> Commentary about the diagram that enhances it.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> Additional commentary on the containing object.</p>
                                              <details class="properties elements" open="open">
                                                 <summary>Element (0+)</summary>
-                                                <div class="model-entry definition assembly">
+                                                <div class="model-entry definition field">
                                                    <div class="instance-header">
                                                       <h5 id="/system-security-plan/system-characteristics/network-architecture/diagram/remarks/_VALUE" class="toc5 name">(unwrapped)</h5>
                                                       <p class="type"><a href="/reference/datatypes/#markup-multiline">markup-multiline</a></p>
@@ -7399,8 +7429,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -7518,13 +7547,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -7650,10 +7679,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              </ul>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='diagramn']/@href[starts-with(.,'#')]</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='diagram']/@href[starts-with(.,'#')]</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>  for <code class="path">link[@rel='diagram' and [starts-with(@href,'#')]]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">link[@rel='diagram' and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
                                           <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='diagram']/@href[not(starts-with(.,'#'))]</code>: the target value must match the lexical form of the 'uri' data type.</p>
@@ -7670,7 +7699,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Diagram ID</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> The identifier for this diagram.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this diagram elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>diagram</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                of the document.</p>
                                           </div>
                                        </div>
                                     </details>
@@ -7776,8 +7807,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -7895,13 +7925,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -8015,13 +8045,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="type"><a href="/reference/datatypes/#markup-multiline">markup-multiline</a></p>
                                              <p class="occurrence">[0 or 1]</p>
                                              <div class="crosslink"><a class="usa-button" href="../json-reference/#/system-security-plan/system-characteristics/data-flow/diagrams/remarks">Switch to JSON</a></div>
-                                             <p class="formal-name">remarks field</p>
+                                             <p class="formal-name">Remarks</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> Commentary about the diagram that enhances it.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> Additional commentary on the containing object.</p>
                                              <details class="properties elements" open="open">
                                                 <summary>Element (0+)</summary>
-                                                <div class="model-entry definition assembly">
+                                                <div class="model-entry definition field">
                                                    <div class="instance-header">
                                                       <h5 id="/system-security-plan/system-characteristics/data-flow/diagram/remarks/_VALUE" class="toc5 name">(unwrapped)</h5>
                                                       <p class="type"><a href="/reference/datatypes/#markup-multiline">markup-multiline</a></p>
@@ -8082,7 +8112,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-role-id</code> using a key constructed of key field(s) <code>@role-id</code></p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">index has key</span>  for <code class="path">party-uuid</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                 <p><span class="usa-tag">index has key</span>  for <code class="path">party-uuid</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                               </div>
                            </details>
                            <details class="properties attributes" open="open">
@@ -8096,7 +8126,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Responsible Role</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> The role that the party is responsible for.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> served by the user.</p>
                                  </div>
                               </div>
                            </details>
@@ -8111,10 +8141,14 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Party Reference</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                       globally (e.g., in an imported OSCAL instance). </p>
                                     <div class="remarks-group usa-prose">
                                        <details open="open">
                                           <summary class="subhead">Remarks</summary>
+                                          <div class="remarks">
+                                             <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                          </div>
                                           <div class="remarks">
                                              <p>Specifies one or more parties that are responsible for performing the associated <code>role</code>. </p>
                                           </div>
@@ -8123,7 +8157,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraint (1)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                        </div>
                                     </details>
                                  </div>
@@ -8194,8 +8228,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -8313,13 +8346,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -8487,7 +8520,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                         <p><span class="usa-tag">index</span>  for <code class="path">leveraged-authorization</code> an index <code>index-system-implementation-leveraged-authorization-uuid</code> shall list values returned by targets <code>leveraged-authorization</code> using keys constructed of key field(s) <code>@uuid</code></p>
                      </div>
                      <div class="constraint">
-                        <p><span class="usa-tag">index has key</span>  for <code class="path">component/prop[@name='leveraged-authorization-uuid']</code>this value must correspond to a listing in the index <code>index-system-implementation-leveraged-authorization-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                        <p><span class="usa-tag">index has key</span>  for <code class="path">component/prop[@name='leveraged-authorization-uuid']</code>this value must correspond to a listing in the index <code>index-system-implementation-leveraged-authorization-uuid</code> using a key constructed of key field(s) <code>@value</code></p>
                      </div>
                      <div class="constraint">
                         <p><span class="usa-tag">index</span>  for <code class="path">component</code> an index <code>index-system-implementation-component-uuid</code> shall list values returned by targets <code>component</code> using keys constructed of key field(s) <code>@uuid</code></p>
@@ -8598,8 +8631,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Property Universally Unique Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                       document. A UUID should be consistently used for a given location across revisions
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                        of the document.</p>
                                  </div>
                               </div>
@@ -8717,13 +8749,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            <details class="constraints" open="open">
                               <summary>Constraints (3)</summary>
                               <div class="constraint">
-                                 <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                 <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                 <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                 <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                               </div>
                            </details>
                            <details class="properties attributes" open="open">
@@ -8844,7 +8876,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='system-security-plan']/@href[starts-with(.,'#')]</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">index has key</span>  for <code class="path">link[@rel='system-security-plan' and [starts-with(@href,'#')]]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                 <p><span class="usa-tag">index has key</span>  for <code class="path">link[@rel='system-security-plan' and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                               </div>
                               <div class="constraint">
                                  <p><span class="usa-tag">matches</span>  for <code class="path">link[@rel='system-security-plan']/@href[not(starts-with(.,'#'))]</code>: the target value must match the lexical form of the 'uri' data type.</p>
@@ -8861,9 +8893,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Leveraged Authorization Universally Unique Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this leveraged authorization
-                                       entry elsewhere in an OSCAL document. A UUID should be consistently used for a given
-                                       resource across revisions of the document.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope and can be used to reference this leveraged authorization elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>leveraged authorization</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                       OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                       of the document.</p>
                                  </div>
                               </div>
                            </details>
@@ -8947,8 +8979,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -9066,13 +9097,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -9177,7 +9208,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">party-uuid field</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A reference to the party that manages the leveraged system.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to the <code>party</code> that manages the leveraged system.</p>
                                  </div>
                               </div>
                               <div class="model-entry definition assembly">
@@ -9318,7 +9349,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">User Universally Unique Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> The unique identifier for the user class.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this user class elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>system user</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                       OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                       of the document.</p>
                                  </div>
                               </div>
                            </details>
@@ -9439,8 +9472,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -9558,13 +9590,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -9669,11 +9701,11 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Role Identifier Reference</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A reference to the roles served by the user.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> served by the user.</p>
                                     <details class="constraints" open="open">
                                        <summary>Constraint (1)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-role-id</code> using a key constructed of key field(s) <code>value()</code></p>
+                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-role-id</code> using a key constructed of key field(s) <code>.</code></p>
                                        </div>
                                     </details>
                                  </div>
@@ -10002,7 +10034,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  <p>The value <b>must</b> be one of the following:</p>
                                  <ul>
                                     
-                                    <li><strong>inteneral</strong>: The component is implemented within the system boundary.</li>
+                                    <li><strong>internal</strong>: The component is implemented within the system boundary.</li>
                                     
                                     <li><strong>external</strong>: The component is implemented outside the system boundary.</li>
                                     </ul>
@@ -10073,7 +10105,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     </ul>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[(@name=('ipv4-address','ipv6-address')]/@class</code></p>
+                                 <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name=('ipv4-address','ipv6-address')]/@class</code></p>
                                  <p>The value <b>may be locally defined</b>, or one of the following:</p>
                                  <ul>
                                     
@@ -10117,7 +10149,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  <p><span class="usa-tag">matches</span>  for <code class="path">prop[@name='ipv6-address']/@value</code>: the target value must match the lexical form of the 'ip-v6-address' data type.</p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name='direction')]/@value</code></p>
+                                 <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name='direction']/@value</code></p>
                                  <p>The value <b>may be locally defined</b>, or one of the following:</p>
                                  <ul>
                                     
@@ -10141,7 +10173,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Component Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> The unique identifier for the component.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this component elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>component</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                       OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                       of the document.</p>
                                  </div>
                               </div>
                               <div class="model-entry definition assembly">
@@ -10314,8 +10348,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -10433,13 +10466,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -10629,7 +10662,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Responsible Role ID</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                           </div>
                                        </div>
                                     </details>
@@ -10701,8 +10734,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -10820,13 +10852,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -10931,11 +10963,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Party Reference</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                globally (e.g., in an imported OSCAL instance). </p>
+                                             <div class="remarks-group usa-prose">
+                                                <details open="open">
+                                                   <summary class="subhead">Remarks</summary>
+                                                   <div class="remarks">
+                                                      <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                   </div>
+                                                </details>
+                                             </div>
                                              <details class="constraints" open="open">
                                                 <summary>Constraint (1)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                 </div>
                                              </details>
                                           </div>
@@ -10997,9 +11038,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Service Protocol Information Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this service protocol
-                                                entry elsewhere in an OSCAL document. A UUID should be consistently used for a given
-                                                resource across revisions of the document.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this service protocol information elsewhere in
+                                                <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>service protocol</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                of the document.</p>
                                           </div>
                                        </div>
                                        <div class="model-entry definition assembly">
@@ -11362,7 +11404,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  <p><span class="usa-tag">index has key</span>  for <code class="path">responsible-party</code>this value must correspond to a listing in the index <code>index-metadata-role-id</code> using a key constructed of key field(s) <code>@role-id</code></p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">index has key</span>  for <code class="path">responsible-party</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>@party-uuid</code></p>
+                                 <p><span class="usa-tag">index has key</span>  for <code class="path">responsible-party</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>party-uuid</code></p>
                               </div>
                               <div class="constraint">
                                  <p><span class="usa-tag">is unique</span>  for <code class="path">responsible-party</code>: any target value must be unique (i.e., occur only once)</p>
@@ -11379,9 +11421,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Inventory Item Universally Unique Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this inventory item entry
-                                       elsewhere in an OSCAL document. A UUID should be consistently used for a given resource
-                                       across revisions of the document.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this inventory item elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>inventory item</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                       OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                       of the document.</p>
                                  </div>
                               </div>
                            </details>
@@ -11478,8 +11520,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -11597,13 +11638,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -11716,7 +11757,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                           <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-role-id</code> using a key constructed of key field(s) <code>@role-id</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>  for <code class="path">party-uuid</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">party-uuid</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -11730,7 +11771,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Responsible Role</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> The role that the party is responsible for.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> served by the user.</p>
                                           </div>
                                        </div>
                                     </details>
@@ -11745,10 +11786,14 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Party Reference</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                globally (e.g., in an imported OSCAL instance). </p>
                                              <div class="remarks-group usa-prose">
                                                 <details open="open">
                                                    <summary class="subhead">Remarks</summary>
+                                                   <div class="remarks">
+                                                      <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                   </div>
                                                    <div class="remarks">
                                                       <p>Specifies one or more parties that are responsible for performing the associated <code>role</code>. </p>
                                                    </div>
@@ -11757,7 +11802,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraint (1)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                 </div>
                                              </details>
                                           </div>
@@ -11828,8 +11873,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -11947,13 +11991,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -12188,7 +12232,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Component Universally Unique Identifier Reference</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A reference to a component that is implemented as part of an inventory item.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to a <code>component</code> that is implemented as part of an inventory item.</p>
                                           </div>
                                        </div>
                                     </details>
@@ -12260,8 +12304,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -12379,13 +12422,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -12508,7 +12551,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                    <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-role-id</code> using a key constructed of key field(s) <code>@role-id</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">party-uuid</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">party-uuid</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -12522,7 +12565,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Responsible Role</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> The role that the party is responsible for.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> served by the user.</p>
                                                    </div>
                                                 </div>
                                              </details>
@@ -12537,10 +12580,14 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Party Reference</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                         globally (e.g., in an imported OSCAL instance). </p>
                                                       <div class="remarks-group usa-prose">
                                                          <details open="open">
                                                             <summary class="subhead">Remarks</summary>
+                                                            <div class="remarks">
+                                                               <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                            </div>
                                                             <div class="remarks">
                                                                <p>Specifies one or more parties that are responsible for performing the associated <code>role</code>. </p>
                                                             </div>
@@ -12549,7 +12596,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraint (1)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                          </div>
                                                       </details>
                                                    </div>
@@ -12620,8 +12667,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Property Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                  document. A UUID should be consistently used for a given location across revisions
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                   of the document.</p>
                                                             </div>
                                                          </div>
@@ -12739,13 +12785,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraints (3)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                            <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                          </div>
                                                       </details>
                                                       <details class="properties attributes" open="open">
@@ -12967,14 +13013,18 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                      <details open="open">
                         <summary class="subhead">Remarks</summary>
                         <div class="remarks">
-                           <p>Use of <code>set-parameter</code> in this context, sets the parameter for all related controls referenced in an <code>implemented-requirement</code>. If the same parameter is also set in a specific <code>implemented-requirement</code>, then the new value will override this value.</p>
+                           <p>Use of <code>set-parameter</code> in this context, sets the parameter for all controls referenced by any <code>implemented-requirement</code> contained in this context. Any <code>set-parameter</code> defined in a child context will override this value. If not overridden by a child,
+                              this value applies in the child context.</p>
                         </div>
                      </details>
                   </div>
                   <details class="constraints" open="open">
-                     <summary>Constraint (1)</summary>
+                     <summary>Constraints (2)</summary>
                      <div class="constraint">
                         <p><span class="usa-tag">is unique</span>  for <code class="path">set-parameter</code>: any target value must be unique (i.e., occur only once)</p>
+                     </div>
+                     <div class="constraint">
+                        <p><span class="usa-tag">index</span>  for <code class="path">implemented-requirement/by-component/export/provided</code> an index <code>by-component-export-provided-uuid</code> shall list values returned by targets <code>implemented-requirement/by-component/export/provided</code> using keys constructed of key field(s) <code>@uuid</code></p>
                      </div>
                   </details>
                   <details class="properties elements" open="open">
@@ -13026,8 +13076,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Parameter ID</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A reference to a parameter within a control, who's catalog has been imported into
-                                       the current implementation context.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> reference to a <code>parameter</code> within a control, who's catalog has been imported into the current implementation
+                                       context.</p>
                                  </div>
                               </div>
                            </details>
@@ -13082,7 +13132,16 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                            <p class="formal-name">Control-based Requirement</p>
                         </div>
                         <div class="body">
-                           <p class="description"><span class="usa-tag">Description</span> Describes how the system satisfies an individual control.</p>
+                           <p class="description"><span class="usa-tag">Description</span> Describes how the system satisfies the requirements of an individual control.</p>
+                           <div class="remarks-group usa-prose">
+                              <details open="open">
+                                 <summary class="subhead">Remarks</summary>
+                                 <div class="remarks">
+                                    <p>Use of <code>set-parameter</code> in this context, sets the parameter for the referenced control. Any <code>set-parameter</code> defined in a child context will override this value. If not overridden by a child,
+                                       this value applies in the child context.</p>
+                                 </div>
+                              </details>
+                           </div>
                            <details class="constraints" open="open">
                               <summary>Constraints (11)</summary>
                               <div class="constraint">
@@ -13150,7 +13209,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  <p><span class="usa-tag">index has key</span>  for <code class="path">responsible-role|statement/responsible-role|.//by-component//responsible-role</code>this value must correspond to a listing in the index <code>index-metadata-role-id</code> using a key constructed of key field(s) <code>@role-id</code></p>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">index has key</span>  for <code class="path">responsible-role|statement/responsible-role|.//by-component//responsible-role</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>@party-uuid</code></p>
+                                 <p><span class="usa-tag">index has key</span>  for <code class="path">responsible-role|statement/responsible-role|.//by-component//responsible-role</code>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>party-uuid</code></p>
                               </div>
                               <div class="constraint">
                                  <p><span class="usa-tag">has cardinality</span>  for <code class="path">.//by-component</code> the cardinality of  <code>.//by-component</code> is constrained: <b>1</b>; maximum <b>unbounded</b>.</p>
@@ -13179,9 +13238,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Control Requirement Universally Unique Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this control requirement
-                                       entry elsewhere in an OSCAL document. A UUID should be consistently used for a given
-                                       resource across revisions of the document.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this control requirement elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>control requirement</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                       OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                       of the document.</p>
                                  </div>
                               </div>
                               <div class="model-entry definition assembly">
@@ -13193,7 +13252,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Control Identifier Reference</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A reference to a control with a corresponding <code>id</code> value.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to a control with a corresponding <code>id</code> value. When referencing an externally defined <code>control</code>, the <code>Control Identifier Reference</code> must be used in the context of the external / imported OSCAL instance (e.g., uri-reference).</p>
                                  </div>
                               </div>
                            </details>
@@ -13265,8 +13324,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -13384,13 +13442,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <details class="constraints" open="open">
                                        <summary>Constraints (3)</summary>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                          <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                        </div>
                                        <div class="constraint">
-                                          <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                          <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                        </div>
                                     </details>
                                     <details class="properties attributes" open="open">
@@ -13507,8 +13565,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Parameter ID</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A reference to a parameter within a control, who's catalog has been imported into
-                                                the current implementation context.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> reference to a <code>parameter</code> within a control, who's catalog has been imported into the current implementation
+                                                context.</p>
                                           </div>
                                        </div>
                                     </details>
@@ -13576,7 +13634,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Responsible Role ID</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                           </div>
                                        </div>
                                     </details>
@@ -13648,8 +13706,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -13767,13 +13824,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -13878,11 +13935,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Party Reference</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                globally (e.g., in an imported OSCAL instance). </p>
+                                             <div class="remarks-group usa-prose">
+                                                <details open="open">
+                                                   <summary class="subhead">Remarks</summary>
+                                                   <div class="remarks">
+                                                      <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                   </div>
+                                                </details>
+                                             </div>
                                              <details class="constraints" open="open">
                                                 <summary>Constraint (1)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                 </div>
                                              </details>
                                           </div>
@@ -13972,7 +14038,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Control Statement Reference</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A reference to a control statement by its identifier</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to a <code>control statement</code>.</p>
                                              <div class="remarks-group usa-prose">
                                                 <details open="open">
                                                    <summary class="subhead">Remarks</summary>
@@ -13992,9 +14058,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Control Statement Reference Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this control statement
-                                                entry elsewhere in an OSCAL document. A UUID should be consistently used for a given
-                                                resource across revisions of the document.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this control statement elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The <em>UUID</em> of the <code>control statement</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                globally (e.g., in an imported OSCAL instance).</p>
                                           </div>
                                        </div>
                                     </details>
@@ -14066,8 +14131,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -14185,13 +14249,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -14309,7 +14373,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Responsible Role ID</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                    </div>
                                                 </div>
                                              </details>
@@ -14381,8 +14445,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Property Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                  document. A UUID should be consistently used for a given location across revisions
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                   of the document.</p>
                                                             </div>
                                                          </div>
@@ -14500,13 +14563,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraints (3)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                            <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                          </div>
                                                       </details>
                                                       <details class="properties attributes" open="open">
@@ -14611,11 +14674,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Party Reference</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                         globally (e.g., in an imported OSCAL instance). </p>
+                                                      <div class="remarks-group usa-prose">
+                                                         <details open="open">
+                                                            <summary class="subhead">Remarks</summary>
+                                                            <div class="remarks">
+                                                               <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                            </div>
+                                                         </details>
+                                                      </div>
                                                       <details class="constraints" open="open">
                                                          <summary>Constraint (1)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                          </div>
                                                       </details>
                                                    </div>
@@ -14658,6 +14730,17 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                           </div>
                                           <div class="body">
                                              <p class="description"><span class="usa-tag">Description</span> Defines how the referenced component implements a set of controls.</p>
+                                             <div class="remarks-group usa-prose">
+                                                <details open="open">
+                                                   <summary class="subhead">Remarks</summary>
+                                                   <div class="remarks">
+                                                      <p>Use of <code>set-parameter</code> in this context, sets the parameter for the control referenced in the containing
+                                                         <code>implemented-requirement</code> applied to the referenced component. If the <code>by-component</code> is used as a child of a <code>statement</code>, then the parameter value also applies only in the context of the referenced statement.
+                                                         If the same parameter is also set in the <code>control-implementation</code> or a specific <code>implemented-requirement</code>, then this <code>by-component/set-parameter</code> value will override the other value(s) in the context of the referenced component,
+                                                         control, and statement (if parent).</p>
+                                                   </div>
+                                                </details>
+                                             </div>
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (2)</summary>
                                                 <div class="constraint">
@@ -14708,7 +14791,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Component Universally Unique Identifier Reference</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A reference to the component that is implementing a given control or control statement.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to the <code>component</code> that is implemeting a given control.</p>
                                                    </div>
                                                 </div>
                                                 <div class="model-entry definition assembly">
@@ -14720,9 +14803,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">By-Component Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this by-component entry
-                                                         elsewhere in an OSCAL document. A UUID should be consistently used for a given resource
-                                                         across revisions of the document.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this by-component entry elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>by-component</code> entry can be used to reference the data item locally or globally (e.g., in an imported
+                                                         OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                         of the document.</p>
                                                    </div>
                                                 </div>
                                              </details>
@@ -14820,8 +14903,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Property Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                  document. A UUID should be consistently used for a given location across revisions
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                   of the document.</p>
                                                             </div>
                                                          </div>
@@ -14939,13 +15021,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraints (3)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                            <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                          </div>
                                                       </details>
                                                       <details class="properties attributes" open="open">
@@ -15062,8 +15144,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Parameter ID</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A reference to a parameter within a control, who's catalog has been imported into
-                                                                  the current implementation context.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> reference to a <code>parameter</code> within a control, who's catalog has been imported into the current implementation
+                                                                  context.</p>
                                                             </div>
                                                          </div>
                                                       </details>
@@ -15202,12 +15284,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                    <div class="body">
                                                       <p class="description"><span class="usa-tag">Description</span> Identifies content intended for external consumption, such as with leveraged organizations.</p>
                                                       <details class="constraints" open="open">
-                                                         <summary>Constraints (3)</summary>
+                                                         <summary>Constraints (2)</summary>
                                                          <div class="constraint">
                                                             <p><span class="usa-tag">has cardinality</span>  for <code class="path">provided|responsibility</code> the cardinality of  <code>provided|responsibility</code> is constrained: <b>1</b>; maximum <b>unbounded</b>.</p>
-                                                         </div>
-                                                         <div class="constraint">
-                                                            <p><span class="usa-tag">index</span> an index <code>by-component-export-provided-uuid</code> shall contain values  using keys constructed of key field(s) <code>@uuid</code></p>
                                                          </div>
                                                          <div class="constraint">
                                                             <p><span class="usa-tag">index has key</span>  for <code class="path">responsibility</code>this value must correspond to a listing in the index <code>by-component-export-provided-uuid</code> using a key constructed of key field(s) <code>@provided-uuid</code></p>
@@ -15307,8 +15386,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Property Universally Unique Identifier</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                           document. A UUID should be consistently used for a given location across revisions
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                            of the document.</p>
                                                                      </div>
                                                                   </div>
@@ -15426,13 +15504,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraints (3)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                   </div>
                                                                </details>
                                                                <details class="properties attributes" open="open">
@@ -15555,9 +15633,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Provided Universally Unique Identifier</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this provided entry elsewhere
-                                                                           in an OSCAL document. A UUID should be consistently used for a given resource across
-                                                                           revisions of the document.</p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this provided entry elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>provided</code> entry can be used to reference the data item locally or globally (e.g., in an imported
+                                                                           OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                                           of the document.</p>
                                                                      </div>
                                                                   </div>
                                                                </details>
@@ -15655,8 +15733,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <p class="formal-name">Property Universally Unique Identifier</p>
                                                                               </div>
                                                                               <div class="body">
-                                                                                 <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                                    document. A UUID should be consistently used for a given location across revisions
+                                                                                 <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                                     of the document.</p>
                                                                               </div>
                                                                            </div>
@@ -15774,13 +15851,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <details class="constraints" open="open">
                                                                            <summary>Constraints (3)</summary>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                              <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                            </div>
                                                                         </details>
                                                                         <details class="properties attributes" open="open">
@@ -15898,7 +15975,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <p class="formal-name">Responsible Role ID</p>
                                                                               </div>
                                                                               <div class="body">
-                                                                                 <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                                                 <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                                               </div>
                                                                            </div>
                                                                         </details>
@@ -15970,8 +16047,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                           <p class="formal-name">Property Universally Unique Identifier</p>
                                                                                        </div>
                                                                                        <div class="body">
-                                                                                          <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                                             document. A UUID should be consistently used for a given location across revisions
+                                                                                          <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                                              of the document.</p>
                                                                                        </div>
                                                                                     </div>
@@ -16089,13 +16165,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <details class="constraints" open="open">
                                                                                     <summary>Constraints (3)</summary>
                                                                                     <div class="constraint">
-                                                                                       <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                                       <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                                     </div>
                                                                                     <div class="constraint">
-                                                                                       <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                                       <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                                     </div>
                                                                                     <div class="constraint">
-                                                                                       <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                                       <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                                     </div>
                                                                                  </details>
                                                                                  <details class="properties attributes" open="open">
@@ -16200,11 +16276,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <p class="formal-name">Party Reference</p>
                                                                               </div>
                                                                               <div class="body">
-                                                                                 <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                                                 <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                                                    globally (e.g., in an imported OSCAL instance). </p>
+                                                                                 <div class="remarks-group usa-prose">
+                                                                                    <details open="open">
+                                                                                       <summary class="subhead">Remarks</summary>
+                                                                                       <div class="remarks">
+                                                                                          <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                                                       </div>
+                                                                                    </details>
+                                                                                 </div>
                                                                                  <details class="constraints" open="open">
                                                                                     <summary>Constraint (1)</summary>
                                                                                     <div class="constraint">
-                                                                                       <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                                                       <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                                                     </div>
                                                                                  </details>
                                                                               </div>
@@ -16292,9 +16377,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Responsibility Universally Unique Identifier</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this responsibility entry
-                                                                           elsewhere in an OSCAL document. A UUID should be consistently used for a given resource
-                                                                           across revisions of the document.</p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this responsibility elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>responsibility</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                                           OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                                           of the document.</p>
                                                                      </div>
                                                                   </div>
                                                                   <div class="model-entry definition assembly">
@@ -16306,7 +16391,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Provided UUID</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> Identifies a 'provided' assembly associated with this assembly.</p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to an inherited control implementation that a leveraging system
+                                                                           is inheriting from a leveraged system.</p>
                                                                      </div>
                                                                   </div>
                                                                </details>
@@ -16405,8 +16491,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <p class="formal-name">Property Universally Unique Identifier</p>
                                                                               </div>
                                                                               <div class="body">
-                                                                                 <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                                    document. A UUID should be consistently used for a given location across revisions
+                                                                                 <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                                     of the document.</p>
                                                                               </div>
                                                                            </div>
@@ -16524,13 +16609,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <details class="constraints" open="open">
                                                                            <summary>Constraints (3)</summary>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                              <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                            </div>
                                                                         </details>
                                                                         <details class="properties attributes" open="open">
@@ -16657,7 +16742,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <p class="formal-name">Responsible Role ID</p>
                                                                               </div>
                                                                               <div class="body">
-                                                                                 <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                                                 <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                                               </div>
                                                                            </div>
                                                                         </details>
@@ -16729,8 +16814,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                           <p class="formal-name">Property Universally Unique Identifier</p>
                                                                                        </div>
                                                                                        <div class="body">
-                                                                                          <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                                             document. A UUID should be consistently used for a given location across revisions
+                                                                                          <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                                              of the document.</p>
                                                                                        </div>
                                                                                     </div>
@@ -16848,13 +16932,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <details class="constraints" open="open">
                                                                                     <summary>Constraints (3)</summary>
                                                                                     <div class="constraint">
-                                                                                       <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                                       <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                                     </div>
                                                                                     <div class="constraint">
-                                                                                       <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                                       <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                                     </div>
                                                                                     <div class="constraint">
-                                                                                       <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                                       <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                                     </div>
                                                                                  </details>
                                                                                  <details class="properties attributes" open="open">
@@ -16959,11 +17043,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <p class="formal-name">Party Reference</p>
                                                                               </div>
                                                                               <div class="body">
-                                                                                 <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                                                 <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                                                    globally (e.g., in an imported OSCAL instance). </p>
+                                                                                 <div class="remarks-group usa-prose">
+                                                                                    <details open="open">
+                                                                                       <summary class="subhead">Remarks</summary>
+                                                                                       <div class="remarks">
+                                                                                          <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                                                       </div>
+                                                                                    </details>
+                                                                                 </div>
                                                                                  <details class="constraints" open="open">
                                                                                     <summary>Constraint (1)</summary>
                                                                                     <div class="constraint">
-                                                                                       <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                                                       <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                                                     </div>
                                                                                  </details>
                                                                               </div>
@@ -17079,9 +17172,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Inherited Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this inherited entry elsewhere
-                                                                  in an OSCAL document. A UUID should be consistently used for a given resource across
-                                                                  revisions of the document.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this inherited entry elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>inherited control implementation</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                                  OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                                  of the document.</p>
                                                             </div>
                                                          </div>
                                                          <div class="model-entry definition assembly">
@@ -17093,7 +17186,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Provided UUID</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> Identifies a 'provided' assembly associated with this assembly.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to an inherited control implementation that a leveraging system
+                                                                  is inheriting from a leveraged system.</p>
                                                             </div>
                                                          </div>
                                                       </details>
@@ -17191,8 +17285,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Property Universally Unique Identifier</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                           document. A UUID should be consistently used for a given location across revisions
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                            of the document.</p>
                                                                      </div>
                                                                   </div>
@@ -17310,13 +17403,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraints (3)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                   </div>
                                                                </details>
                                                                <details class="properties attributes" open="open">
@@ -17434,7 +17527,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Responsible Role ID</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                                      </div>
                                                                   </div>
                                                                </details>
@@ -17506,8 +17599,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <p class="formal-name">Property Universally Unique Identifier</p>
                                                                               </div>
                                                                               <div class="body">
-                                                                                 <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                                    document. A UUID should be consistently used for a given location across revisions
+                                                                                 <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                                     of the document.</p>
                                                                               </div>
                                                                            </div>
@@ -17625,13 +17717,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <details class="constraints" open="open">
                                                                            <summary>Constraints (3)</summary>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                              <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                            </div>
                                                                         </details>
                                                                         <details class="properties attributes" open="open">
@@ -17736,11 +17828,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Party Reference</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                                           globally (e.g., in an imported OSCAL instance). </p>
+                                                                        <div class="remarks-group usa-prose">
+                                                                           <details open="open">
+                                                                              <summary class="subhead">Remarks</summary>
+                                                                              <div class="remarks">
+                                                                                 <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                                              </div>
+                                                                           </details>
+                                                                        </div>
                                                                         <details class="constraints" open="open">
                                                                            <summary>Constraint (1)</summary>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                                            </div>
                                                                         </details>
                                                                      </div>
@@ -17803,9 +17904,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Satisfied Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this satisfied entry elsewhere
-                                                                  in an OSCAL document. A UUID should be consistently used for a given resource across
-                                                                  revisions of the document.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this satisfied control implementation entry elsewhere
+                                                                  in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>control implementation</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                                  OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                                  of the document.</p>
                                                             </div>
                                                          </div>
                                                          <div class="model-entry definition assembly">
@@ -17814,10 +17916,11 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="type"><a href="/reference/datatypes/#uuid">uuid</a></p>
                                                                <p class="occurrence">[0 or 1]</p>
                                                                <div class="crosslink"><a class="usa-button" href="../json-reference/#/system-security-plan/control-implementation/implemented-requirements/statements/by-components/satisfied/responsibility-uuid">Switch to JSON</a></div>
-                                                               <p class="formal-name">Provided UUID</p>
+                                                               <p class="formal-name">Responsibility UUID</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> Identifies a 'provided' assembly associated with this assembly.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to a control implementation that satisfies a responsibility
+                                                                  imposed by a leveraged system.</p>
                                                             </div>
                                                          </div>
                                                       </details>
@@ -17916,8 +18019,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Property Universally Unique Identifier</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                           document. A UUID should be consistently used for a given location across revisions
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                            of the document.</p>
                                                                      </div>
                                                                   </div>
@@ -18035,13 +18137,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraints (3)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                   </div>
                                                                </details>
                                                                <details class="properties attributes" open="open">
@@ -18159,7 +18261,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Responsible Role ID</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                                      </div>
                                                                   </div>
                                                                </details>
@@ -18231,8 +18333,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <p class="formal-name">Property Universally Unique Identifier</p>
                                                                               </div>
                                                                               <div class="body">
-                                                                                 <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                                    document. A UUID should be consistently used for a given location across revisions
+                                                                                 <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                                     of the document.</p>
                                                                               </div>
                                                                            </div>
@@ -18350,13 +18451,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <details class="constraints" open="open">
                                                                            <summary>Constraints (3)</summary>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                              <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                            </div>
                                                                         </details>
                                                                         <details class="properties attributes" open="open">
@@ -18461,11 +18562,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Party Reference</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                                           globally (e.g., in an imported OSCAL instance). </p>
+                                                                        <div class="remarks-group usa-prose">
+                                                                           <details open="open">
+                                                                              <summary class="subhead">Remarks</summary>
+                                                                              <div class="remarks">
+                                                                                 <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                                              </div>
+                                                                           </details>
+                                                                        </div>
                                                                         <details class="constraints" open="open">
                                                                            <summary>Constraint (1)</summary>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                                            </div>
                                                                         </details>
                                                                      </div>
@@ -18548,7 +18658,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Responsible Role ID</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                             </div>
                                                          </div>
                                                       </details>
@@ -18620,8 +18730,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Property Universally Unique Identifier</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                           document. A UUID should be consistently used for a given location across revisions
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                            of the document.</p>
                                                                      </div>
                                                                   </div>
@@ -18739,13 +18848,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraints (3)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                   </div>
                                                                </details>
                                                                <details class="properties attributes" open="open">
@@ -18850,11 +18959,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Party Reference</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                                  globally (e.g., in an imported OSCAL instance). </p>
+                                                               <div class="remarks-group usa-prose">
+                                                                  <details open="open">
+                                                                     <summary class="subhead">Remarks</summary>
+                                                                     <div class="remarks">
+                                                                        <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                                     </div>
+                                                                  </details>
+                                                               </div>
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraint (1)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                                   </div>
                                                                </details>
                                                             </div>
@@ -18953,6 +19071,17 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                  </div>
                                  <div class="body">
                                     <p class="description"><span class="usa-tag">Description</span> Defines how the referenced component implements a set of controls.</p>
+                                    <div class="remarks-group usa-prose">
+                                       <details open="open">
+                                          <summary class="subhead">Remarks</summary>
+                                          <div class="remarks">
+                                             <p>Use of <code>set-parameter</code> in this context, sets the parameter for the control referenced in the containing
+                                                <code>implemented-requirement</code> applied to the referenced component. If the <code>by-component</code> is used as a child of a <code>statement</code>, then the parameter value also applies only in the context of the referenced statement.
+                                                If the same parameter is also set in the <code>control-implementation</code> or a specific <code>implemented-requirement</code>, then this <code>by-component/set-parameter</code> value will override the other value(s) in the context of the referenced component,
+                                                control, and statement (if parent).</p>
+                                          </div>
+                                       </details>
+                                    </div>
                                     <details class="constraints" open="open">
                                        <summary>Constraints (2)</summary>
                                        <div class="constraint">
@@ -19003,7 +19132,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Component Universally Unique Identifier Reference</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A reference to the component that is implementing a given control or control statement.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to the <code>component</code> that is implemeting a given control.</p>
                                           </div>
                                        </div>
                                        <div class="model-entry definition assembly">
@@ -19015,9 +19144,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">By-Component Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this by-component entry
-                                                elsewhere in an OSCAL document. A UUID should be consistently used for a given resource
-                                                across revisions of the document.</p>
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this by-component entry elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>by-component</code> entry can be used to reference the data item locally or globally (e.g., in an imported
+                                                OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                of the document.</p>
                                           </div>
                                        </div>
                                     </details>
@@ -19115,8 +19244,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -19234,13 +19362,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
@@ -19357,8 +19485,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Parameter ID</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A reference to a parameter within a control, who's catalog has been imported into
-                                                         the current implementation context.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> reference to a <code>parameter</code> within a control, who's catalog has been imported into the current implementation
+                                                         context.</p>
                                                    </div>
                                                 </div>
                                              </details>
@@ -19497,12 +19625,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                           <div class="body">
                                              <p class="description"><span class="usa-tag">Description</span> Identifies content intended for external consumption, such as with leveraged organizations.</p>
                                              <details class="constraints" open="open">
-                                                <summary>Constraints (3)</summary>
+                                                <summary>Constraints (2)</summary>
                                                 <div class="constraint">
                                                    <p><span class="usa-tag">has cardinality</span>  for <code class="path">provided|responsibility</code> the cardinality of  <code>provided|responsibility</code> is constrained: <b>1</b>; maximum <b>unbounded</b>.</p>
-                                                </div>
-                                                <div class="constraint">
-                                                   <p><span class="usa-tag">index</span> an index <code>by-component-export-provided-uuid</code> shall contain values  using keys constructed of key field(s) <code>@uuid</code></p>
                                                 </div>
                                                 <div class="constraint">
                                                    <p><span class="usa-tag">index has key</span>  for <code class="path">responsibility</code>this value must correspond to a listing in the index <code>by-component-export-provided-uuid</code> using a key constructed of key field(s) <code>@provided-uuid</code></p>
@@ -19602,8 +19727,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Property Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                  document. A UUID should be consistently used for a given location across revisions
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                   of the document.</p>
                                                             </div>
                                                          </div>
@@ -19721,13 +19845,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraints (3)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                            <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                          </div>
                                                       </details>
                                                       <details class="properties attributes" open="open">
@@ -19850,9 +19974,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Provided Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this provided entry elsewhere
-                                                                  in an OSCAL document. A UUID should be consistently used for a given resource across
-                                                                  revisions of the document.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this provided entry elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>provided</code> entry can be used to reference the data item locally or globally (e.g., in an imported
+                                                                  OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                                  of the document.</p>
                                                             </div>
                                                          </div>
                                                       </details>
@@ -19950,8 +20074,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Property Universally Unique Identifier</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                           document. A UUID should be consistently used for a given location across revisions
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                            of the document.</p>
                                                                      </div>
                                                                   </div>
@@ -20069,13 +20192,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraints (3)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                   </div>
                                                                </details>
                                                                <details class="properties attributes" open="open">
@@ -20193,7 +20316,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Responsible Role ID</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                                      </div>
                                                                   </div>
                                                                </details>
@@ -20265,8 +20388,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <p class="formal-name">Property Universally Unique Identifier</p>
                                                                               </div>
                                                                               <div class="body">
-                                                                                 <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                                    document. A UUID should be consistently used for a given location across revisions
+                                                                                 <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                                     of the document.</p>
                                                                               </div>
                                                                            </div>
@@ -20384,13 +20506,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <details class="constraints" open="open">
                                                                            <summary>Constraints (3)</summary>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                              <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                            </div>
                                                                         </details>
                                                                         <details class="properties attributes" open="open">
@@ -20495,11 +20617,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Party Reference</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                                           globally (e.g., in an imported OSCAL instance). </p>
+                                                                        <div class="remarks-group usa-prose">
+                                                                           <details open="open">
+                                                                              <summary class="subhead">Remarks</summary>
+                                                                              <div class="remarks">
+                                                                                 <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                                              </div>
+                                                                           </details>
+                                                                        </div>
                                                                         <details class="constraints" open="open">
                                                                            <summary>Constraint (1)</summary>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                                            </div>
                                                                         </details>
                                                                      </div>
@@ -20587,9 +20718,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Responsibility Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this responsibility entry
-                                                                  elsewhere in an OSCAL document. A UUID should be consistently used for a given resource
-                                                                  across revisions of the document.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this responsibility elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>responsibility</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                                  OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                                  of the document.</p>
                                                             </div>
                                                          </div>
                                                          <div class="model-entry definition assembly">
@@ -20601,7 +20732,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Provided UUID</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> Identifies a 'provided' assembly associated with this assembly.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to an inherited control implementation that a leveraging system
+                                                                  is inheriting from a leveraged system.</p>
                                                             </div>
                                                          </div>
                                                       </details>
@@ -20700,8 +20832,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Property Universally Unique Identifier</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                           document. A UUID should be consistently used for a given location across revisions
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                            of the document.</p>
                                                                      </div>
                                                                   </div>
@@ -20819,13 +20950,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraints (3)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                   </div>
                                                                </details>
                                                                <details class="properties attributes" open="open">
@@ -20952,7 +21083,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Responsible Role ID</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                                      </div>
                                                                   </div>
                                                                </details>
@@ -21024,8 +21155,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                                  <p class="formal-name">Property Universally Unique Identifier</p>
                                                                               </div>
                                                                               <div class="body">
-                                                                                 <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                                    document. A UUID should be consistently used for a given location across revisions
+                                                                                 <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                                     of the document.</p>
                                                                               </div>
                                                                            </div>
@@ -21143,13 +21273,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <details class="constraints" open="open">
                                                                            <summary>Constraints (3)</summary>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                              <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                            </div>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                              <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                            </div>
                                                                         </details>
                                                                         <details class="properties attributes" open="open">
@@ -21254,11 +21384,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Party Reference</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                                           globally (e.g., in an imported OSCAL instance). </p>
+                                                                        <div class="remarks-group usa-prose">
+                                                                           <details open="open">
+                                                                              <summary class="subhead">Remarks</summary>
+                                                                              <div class="remarks">
+                                                                                 <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                                              </div>
+                                                                           </details>
+                                                                        </div>
                                                                         <details class="constraints" open="open">
                                                                            <summary>Constraint (1)</summary>
                                                                            <div class="constraint">
-                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                                              <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                                            </div>
                                                                         </details>
                                                                      </div>
@@ -21374,9 +21513,9 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Inherited Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this inherited entry elsewhere
-                                                         in an OSCAL document. A UUID should be consistently used for a given resource across
-                                                         revisions of the document.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this inherited entry elsewhere in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>inherited control implementation</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                         OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                         of the document.</p>
                                                    </div>
                                                 </div>
                                                 <div class="model-entry definition assembly">
@@ -21388,7 +21527,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Provided UUID</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> Identifies a 'provided' assembly associated with this assembly.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to an inherited control implementation that a leveraging system
+                                                         is inheriting from a leveraged system.</p>
                                                    </div>
                                                 </div>
                                              </details>
@@ -21486,8 +21626,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Property Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                  document. A UUID should be consistently used for a given location across revisions
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                   of the document.</p>
                                                             </div>
                                                          </div>
@@ -21605,13 +21744,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraints (3)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                            <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                          </div>
                                                       </details>
                                                       <details class="properties attributes" open="open">
@@ -21729,7 +21868,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Responsible Role ID</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                             </div>
                                                          </div>
                                                       </details>
@@ -21801,8 +21940,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Property Universally Unique Identifier</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                           document. A UUID should be consistently used for a given location across revisions
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                            of the document.</p>
                                                                      </div>
                                                                   </div>
@@ -21920,13 +22058,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraints (3)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                   </div>
                                                                </details>
                                                                <details class="properties attributes" open="open">
@@ -22031,11 +22169,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Party Reference</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                                  globally (e.g., in an imported OSCAL instance). </p>
+                                                               <div class="remarks-group usa-prose">
+                                                                  <details open="open">
+                                                                     <summary class="subhead">Remarks</summary>
+                                                                     <div class="remarks">
+                                                                        <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                                     </div>
+                                                                  </details>
+                                                               </div>
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraint (1)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                                   </div>
                                                                </details>
                                                             </div>
@@ -22098,9 +22245,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Satisfied Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this satisfied entry elsewhere
-                                                         in an OSCAL document. A UUID should be consistently used for a given resource across
-                                                         revisions of the document.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this satisfied control implementation entry elsewhere
+                                                         in <a href="/concepts/identifier-use/#ssp-identifiers">this or other OSCAL instances</a>. The locally defined <em>UUID</em> of the <code>control implementation</code> can be used to reference the data item locally or globally (e.g., in an imported
+                                                         OSCAL instance). This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                                         of the document.</p>
                                                    </div>
                                                 </div>
                                                 <div class="model-entry definition assembly">
@@ -22109,10 +22257,11 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="type"><a href="/reference/datatypes/#uuid">uuid</a></p>
                                                       <p class="occurrence">[0 or 1]</p>
                                                       <div class="crosslink"><a class="usa-button" href="../json-reference/#/system-security-plan/control-implementation/implemented-requirements/by-components/satisfied/responsibility-uuid">Switch to JSON</a></div>
-                                                      <p class="formal-name">Provided UUID</p>
+                                                      <p class="formal-name">Responsibility UUID</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> Identifies a 'provided' assembly associated with this assembly.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to a control implementation that satisfies a responsibility
+                                                         imposed by a leveraged system.</p>
                                                    </div>
                                                 </div>
                                              </details>
@@ -22211,8 +22360,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Property Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                  document. A UUID should be consistently used for a given location across revisions
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                   of the document.</p>
                                                             </div>
                                                          </div>
@@ -22330,13 +22478,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraints (3)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                            <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                          </div>
                                                       </details>
                                                       <details class="properties attributes" open="open">
@@ -22454,7 +22602,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Responsible Role ID</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                             </div>
                                                          </div>
                                                       </details>
@@ -22526,8 +22674,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                         <p class="formal-name">Property Universally Unique Identifier</p>
                                                                      </div>
                                                                      <div class="body">
-                                                                        <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                           document. A UUID should be consistently used for a given location across revisions
+                                                                        <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                            of the document.</p>
                                                                      </div>
                                                                   </div>
@@ -22645,13 +22792,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraints (3)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                                   </div>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                                     <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                                   </div>
                                                                </details>
                                                                <details class="properties attributes" open="open">
@@ -22756,11 +22903,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Party Reference</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                                  globally (e.g., in an imported OSCAL instance). </p>
+                                                               <div class="remarks-group usa-prose">
+                                                                  <details open="open">
+                                                                     <summary class="subhead">Remarks</summary>
+                                                                     <div class="remarks">
+                                                                        <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                                     </div>
+                                                                  </details>
+                                                               </div>
                                                                <details class="constraints" open="open">
                                                                   <summary>Constraint (1)</summary>
                                                                   <div class="constraint">
-                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                                     <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                                   </div>
                                                                </details>
                                                             </div>
@@ -22843,7 +22999,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Responsible Role ID</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> The role that is responsible for the business function.</p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#human-oriented">human-oriented</a> identifier reference to <code>roles</code> responsible for the business function.</p>
                                                    </div>
                                                 </div>
                                              </details>
@@ -22915,8 +23071,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                                <p class="formal-name">Property Universally Unique Identifier</p>
                                                             </div>
                                                             <div class="body">
-                                                               <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                                  document. A UUID should be consistently used for a given location across revisions
+                                                               <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                                   of the document.</p>
                                                             </div>
                                                          </div>
@@ -23034,13 +23189,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <details class="constraints" open="open">
                                                          <summary>Constraints (3)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                            <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                          </div>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                            <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                          </div>
                                                       </details>
                                                       <details class="properties attributes" open="open">
@@ -23145,11 +23300,20 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Party Reference</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> References a <code>party</code> defined in <code>metadata</code>. </p>
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a> identifier reference to another <code>party</code> defined in <code>metadata</code>. The <em>UUID</em> of the <code>party</code> in the source OSCAL instance is sufficient to reference the data item locally or
+                                                         globally (e.g., in an imported OSCAL instance). </p>
+                                                      <div class="remarks-group usa-prose">
+                                                         <details open="open">
+                                                            <summary class="subhead">Remarks</summary>
+                                                            <div class="remarks">
+                                                               <p>See the <a href="/concepts/identifier-use/#scope">Concepts - Identifier Use</a> page for additional information about the referenced identifier's scope.</p>
+                                                            </div>
+                                                         </details>
+                                                      </div>
                                                       <details class="constraints" open="open">
                                                          <summary>Constraint (1)</summary>
                                                          <div class="constraint">
-                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>value()</code></p>
+                                                            <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-metadata-party-uuid</code> using a key constructed of key field(s) <code>.</code></p>
                                                          </div>
                                                       </details>
                                                    </div>
@@ -23298,7 +23462,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                               </details>
                            </div>
                            <details class="constraints" open="open">
-                              <summary>Constraints (7)</summary>
+                              <summary>Constraints (6)</summary>
                               <div class="constraint">
                                  <p><span class="usa-tag">allowed values</span>  for <code class="path">prop/@name</code></p>
                                  <p>The value <b>must</b> be one of the following:</p>
@@ -23314,7 +23478,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     </ul>
                               </div>
                               <div class="constraint">
-                                 <p><span class="usa-tag">matches</span>  for <code class="path">prop[(not(exists(@ns)) or @ns='http://csrc.nist.gov/ns/oscal') and @name='published']/@value</code>: the target value must match the lexical form of the 'dateTime' data type.</p>
+                                 <p><span class="usa-tag">matches</span>  for <code class="path">prop[has-oscal-namespace('http://csrc.nist.gov/ns/oscal') and @name='published']/@value</code>: the target value must match the lexical form of the 'dateTime' data type.</p>
                               </div>
                               <div class="constraint">
                                  <p><span class="usa-tag">allowed values</span>  for <code class="path">prop[@name='type']/@value</code></p>
@@ -23385,9 +23549,6 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                               <div class="constraint">
                                  <p><span class="usa-tag">is unique</span>  for <code class="path">base64</code>: any target value must be unique (i.e., occur only once)</p>
                               </div>
-                              <div class="constraint">
-                                 <p><span class="usa-tag">has cardinality</span>  for <code class="path">title</code> the cardinality of  <code>title</code> is constrained: <b>1</b>; maximum <b>unbounded</b>.</p>
-                              </div>
                            </details>
                            <details class="properties attributes" open="open">
                               <summary>Attribute (1)</summary>
@@ -23400,9 +23561,8 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Resource Universally Unique Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A globally unique identifier that can be used to reference this defined resource
-                                       elsewhere in an OSCAL document. A UUID should be consistently used for a given resource
-                                       across revisions of the document.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined resource elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
+                                       of the document.</p>
                                  </div>
                               </div>
                            </details>
@@ -23511,8 +23671,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <p class="formal-name">Property Universally Unique Identifier</p>
                                           </div>
                                           <div class="body">
-                                             <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                document. A UUID should be consistently used for a given location across revisions
+                                             <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                 of the document.</p>
                                           </div>
                                        </div>
@@ -23616,10 +23775,10 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                     <p class="formal-name">Document Identifier</p>
                                  </div>
                                  <div class="body">
-                                    <p class="description"><span class="usa-tag">Description</span> A document identifier qualified by an identifier <code>scheme</code>. A document identifier provides a globally unique identifier for a group of documents
-                                       that are to be treated as different versions of the same document. If this element
-                                       does not appear, or if the value of this element is empty, the value of "document-id"
-                                       is equal to the value of the "uuid" flag of the top-level root element.</p>
+                                    <p class="description"><span class="usa-tag">Description</span> A document identifier qualified by an identifier <code>scheme</code>. A document identifier provides a <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with a <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that is used for a group of documents that are to be treated as different versions
+                                       of the same document. If this element does not appear, or if the value of this element
+                                       is empty, the value of "document-id" is equal to the value of the "uuid" flag of the
+                                       top-level root element.</p>
                                     <div class="remarks-group usa-prose">
                                        <details open="open">
                                           <summary class="subhead">Remarks</summary>
@@ -23652,7 +23811,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                    <p>The value <b>may be locally defined</b>, or the following:</p>
                                                    <ul>
                                                       
-                                                      <li><strong>https://www.doi.org/</strong>: A Digital Object Identifier (DOI); use is preferred, since this allows for retrieval
+                                                      <li><strong>http://www.doi.org/</strong>: A Digital Object Identifier (DOI); use is preferred, since this allows for retrieval
                                                          of a full bibliographic record.</li>
                                                       </ul>
                                                 </div>
@@ -23762,8 +23921,7 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                                       <p class="formal-name">Property Universally Unique Identifier</p>
                                                    </div>
                                                    <div class="body">
-                                                      <p class="description"><span class="usa-tag">Description</span> A unique identifier that can be used to reference this property elsewhere in an OSCAL
-                                                         document. A UUID should be consistently used for a given location across revisions
+                                                      <p class="description"><span class="usa-tag">Description</span> A <a href="/concepts/identifier-use/#machine-oriented">machine-oriented</a>, <a href="/concepts/identifier-use/#globally-unique">globally unique</a> identifier with <a href="/concepts/identifier-use/#cross-instance">cross-instance</a> scope that can be used to reference this defined property elsewhere in <a href="/concepts/identifier-use/#scope">this or other OSCAL instances</a>. This UUID should be assigned <a href="/concepts/identifier-use/#consistency">per-subject</a>, which means it should be consistently used to identify the same subject across revisions
                                                          of the document.</p>
                                                    </div>
                                                 </div>
@@ -23881,13 +24039,13 @@ The following is the XML format reference for this [model](/concepts/layer/imple
                                              <details class="constraints" open="open">
                                                 <summary>Constraints (3)</summary>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]/@href</code>: the target value must match the lexical form of the 'uri-reference' data type.</p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">index has key</span>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
+                                                   <p><span class="usa-tag">index has key</span>  for <code class="path">.[@rel=('reference') and starts-with(@href,'#')]</code>this value must correspond to a listing in the index <code>index-back-matter-resource</code> using a key constructed of key field(s) <code>@href</code></p>
                                                 </div>
                                                 <div class="constraint">
-                                                   <p><span class="usa-tag">matches</span>  for <code class="path">@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
+                                                   <p><span class="usa-tag">matches</span>  for <code class="path">.[@rel=('reference') and not(starts-with(@href,'#'))]/@href</code>: the target value must match the lexical form of the 'uri' data type.</p>
                                                 </div>
                                              </details>
                                              <details class="properties attributes" open="open">
