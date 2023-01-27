@@ -14,6 +14,9 @@
   - [Initializing Git submodules](#initializing-git-submodules)
   - [Configuring Submodules to Use SSH](#configuring-submodules-to-use-ssh)
   - [Updating submodules](#updating-submodules)
+- [Licenses and attribution](#licenses-and-attribution)
+  - [This project is in the public domain](#this-project-is-in-the-public-domain)
+  - [Contributions will be released into the public domain](#contributions-will-be-released-into-the-public-domain)
 
 # Overview
 
@@ -24,7 +27,7 @@ This page is for potential contributors to the OSCAL project. It provides basic 
 
 The approach we’re taking with OSCAL is agile. We’re adopting the philosophy of implementing the 20% of the functionality that solves 80% of the problem. We’re trying to focus on the core capabilities that are needed to provide the greatest amount of benefit. Because we’re working on a small set of capabilities, that allows us to make very fast progress. We’re building the features that we believe solve the biggest problems, so we’re providing the most value.
 
-We track our current work items using GitHub [project cards](../../projects). The active project is typically the lowest numbered open project within the previously referenced page.
+We track our current work items using GitHub [project cards](https://github.com/orgs/usnistgov/projects/25). The active project is typically the lowest numbered open project within the previously referenced page.
 
 ## Contribution options
 
@@ -59,10 +62,10 @@ There are two mailing lists for the project:
 
 Contributions can be made to the following branches in this repository:
 
-- **release-\***: The release branches are used to provide patches to a major or minor version of OSCAL. The branches are named release-*major*.*minor*. You should provide changes only to the highest numbered *minor* release for a given *major* release. Patch releases are made more frequenly than *major* or *minor* releases.
+- **release-\***: The release branches are used to provide patches to a major or minor version of OSCAL. The branches are named release-*major*.*minor*. You should provide changes only to the highest numbered *minor* release for a given *major* release. Patch releases are made more frequently than *major* or *minor* releases.
 - **develop**: This branch is used to queue changes for the next *major*/*minor* release of OSCAL. A *major*/*minor* release will result in the creation of a new release branch, once the development has been completed and the update is to be staged for release.
 
-More information about how releases are managed in this repository can be found in the [versioning and branching guide](./versioning-and-branching.md).
+More information about how [releases](../../releases) are managed in this repository can be found in the [versioning and branching guide](versioning-and-branching.md).
 
 The OSCAL project uses a typical GitHub fork and pull request [workflow](https://guides.github.com/introduction/flow/). To establish a development environment for contributing to the OSCAL project, you must do the following:
 
@@ -94,7 +97,7 @@ This repository consists of the following directories and files pertaining to th
 
 # Contributing to a Development Sprint
 
-The NIST OSCAL team is using the GitHub [project cards](../../projects) feature to track development sprints as part of the core OSCAL work stream. A typical development sprint lasts roughly a month, with some sprints lasting slightly less or more to work around major holidays or events attended by the core project team. The active sprint is typically the lowest numbered open project within the previously referenced page.
+The NIST OSCAL team is using the GitHub [project cards](https://github.com/orgs/usnistgov/projects/25) feature to track development sprints as part of the core OSCAL work stream. A typical development sprint lasts roughly a month, with some sprints lasting slightly less or more to work around major holidays or events attended by the core project team. The active sprint is typically the lowest numbered open project within the previously referenced page.
 
 ## User Stories
 
@@ -158,3 +161,15 @@ Submodule contents will be periodically updated. To ensure you have the latest c
 ```
 git submodule update --init --recursive
 ```
+
+# Licenses and attribution
+
+## This project is in the public domain
+
+This project is in the worldwide public domain.
+
+This project is in the public domain within the United States, and copyright and related rights in the work worldwide are waived through the [CC0 1.0 Universal public domain](https://creativecommons.org/publicdomain/zero/1.0/) dedication.
+
+## Contributions will be released into the public domain
+
+All contributions to this repository are provided under the [CC0 1.0 Universal public domain](https://creativecommons.org/publicdomain/zero/1.0/) dedication. By submitting a pull request, you are agreeing to comply with this waiver of copyright interest.
