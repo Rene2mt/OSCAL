@@ -60,7 +60,9 @@ git remote add upstream git@github.com:usnistgov/OSCAL.git
 
 ## Personal Working Branches
 
-All individual work will be done in branches in a personal fork of this repository.
+NIST OSCAL Team members can do work on branches in this repository or, if they so choose, do work in a fork like individual outside contributors.
+
+All individual contributors that are not NIST OSCAL Team members will work in branches in a personal fork of this repository.
 
 Personal branches should be named using the convention `<issue #>-brief-dashed-name`.
 
@@ -98,7 +100,7 @@ Once the release is ready, the release can be made using the following Git comma
 ```
 git checkout main
 git merge --no-ff release-1.2
-git tag -a 1.2.0
+git tag -a v1.2.0
 git push --follow-tags
 ```
 
@@ -111,7 +113,7 @@ Once a patch release is ready, the release can be made using the following Git c
 ```
 git checkout main
 git merge --no-ff release-1.2
-git tag -a 1.2.1
+git tag -a v1.2.1
 git push --follow-tags
 ```
 
